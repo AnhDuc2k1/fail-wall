@@ -1,0 +1,2 @@
+user_id,name,email,password,is_actived
+1,admin,admin@gmail.com,$2a$10$sieeEFwMrvHJI5F7i1v5,1
