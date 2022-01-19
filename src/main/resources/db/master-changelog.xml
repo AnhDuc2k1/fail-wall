@@ -10,5 +10,8 @@
     <include file="changelog/20220112-1703-user.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20220112-1712-role.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20220112-1716-user-role.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20220119-0833-load-data-to-users-table.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20220119-0841-load-data-to-roles-table.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20220119-0851-load-data-to-user-roles-table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
