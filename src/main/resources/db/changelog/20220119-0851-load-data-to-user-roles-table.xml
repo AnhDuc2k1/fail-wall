@@ -1,0 +1,22 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="20220119-0851-001" author="MinhTT" runAlways="true">
+        <delete tableName="user_roles" schemaName="project"/>
+    </changeSet>
+
+    <changeSet id="20220119-0851-002" author="MinhTT" runAlways="true">
+        <loadData tableName="user_roles" relativeToChangelogFile="true" separator="," file="user-roles.csv" quotchar="&quot;"
+                  encoding="UTF-8" schemaName="project">
+            <column header="user_id" name="user_id" type="NUMERIC"/>
+            <column header="role_id" name="role_id" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>

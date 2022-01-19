@@ -1,0 +1,25 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="20220119-0833-001" author="MinhTT" runAlways="true">
+        <delete tableName="users" schemaName="project"/>
+    </changeSet>
+
+    <changeSet id="20220119-0833-002" author="MinhTT" runAlways="true">
+        <loadData tableName="users" relativeToChangelogFile="true" separator="," file="users.csv" quotchar="&quot;"
+                  encoding="UTF-8" schemaName="project">
+            <column header="user_id" name="user_id" type="NUMERIC"/>
+            <column header="name" name="name" type="STRING"/>
+            <column header="email" name="email" type="STRING"/>
+            <column header="password" name="password" type="STRING"/>
+            <column header="is_actived" name="is_actived" type="BOOLEAN"/>
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>
