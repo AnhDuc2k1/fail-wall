@@ -2,12 +2,10 @@ package org.aibles.userservice.security;
 
 import org.aibles.userservice.exception.JwtAuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,14 +26,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 Authentication authentication = jwtProvider.getAuthentication(token);
                 if (authentication != null) {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                    filterChain.doFilter(servletRequest, servletResponse);
                 }
             }
         } catch (JwtAuthenticationException e) {
-            SecurityContextHolder.clearContext();
-            servletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+            System.out.println(e);
         }
-
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
 }
