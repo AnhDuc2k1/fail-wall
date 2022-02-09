@@ -1,4 +1,4 @@
-package org.aibles.userservice.exception;
+package org.aibles.failwall.authentication.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +24,6 @@ public class ExceptionsHandler {
         for (ObjectError er : e.getBindingResult().getAllErrors()){
             errorsValidation.put(((FieldError)er).getField(),er.getDefaultMessage());
         }
-//        e.getBindingResult().getAllErrors().forEach((error) -> {
-//            String fieldName = ((FieldError) error).getField();
-//            String errorMessage = error.getDefaultMessage();
-//            m.put(fieldName, errorMessage);
-//        });
         return new ResponseEntity<> (errorsValidation, HttpStatus.BAD_REQUEST);
     }
 }

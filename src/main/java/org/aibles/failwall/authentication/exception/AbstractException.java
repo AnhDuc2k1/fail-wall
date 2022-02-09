@@ -1,4 +1,4 @@
-package org.aibles.userservice.exception;
+package org.aibles.failwall.authentication.exception;
 
 import org.springframework.http.HttpStatus;
 

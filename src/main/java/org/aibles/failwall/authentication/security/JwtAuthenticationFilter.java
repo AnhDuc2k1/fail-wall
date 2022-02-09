@@ -1,6 +1,6 @@
-package org.aibles.userservice.security;
+package org.aibles.failwall.authentication.security;
 
-import org.aibles.userservice.exception.JwtAuthenticationException;
+import org.aibles.failwall.authentication.exception.JwtAuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

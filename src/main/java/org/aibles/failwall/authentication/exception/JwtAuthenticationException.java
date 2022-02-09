@@ -1,8 +1,7 @@
-package org.aibles.userservice.exception;
+package org.aibles.failwall.authentication.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.AuthenticationException;
 
 @Getter
 public class JwtAuthenticationException extends AbstractException {

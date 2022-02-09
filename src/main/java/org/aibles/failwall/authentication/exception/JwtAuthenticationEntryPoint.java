@@ -1,4 +1,4 @@
-package org.aibles.userservice.security;
+package org.aibles.failwall.authentication.exception;
 
 import java.io.IOException;
 import java.io.Serializable;
