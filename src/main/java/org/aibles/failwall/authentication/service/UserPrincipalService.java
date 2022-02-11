@@ -12,7 +12,7 @@ public class UserPrincipalService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository){
+    public UserPrincipalService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 
