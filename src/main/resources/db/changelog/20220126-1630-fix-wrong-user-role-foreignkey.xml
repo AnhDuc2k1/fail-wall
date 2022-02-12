@@ -1,0 +1,17 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="20220126-1630-001" author="MinhTT">
+        <addPrimaryKey tableName="user_roles" columnNames="user_id, role_id" schemaName="project" constraintName="pk_user_roles"/>
+        <addForeignKeyConstraint baseTableName="user_roles" baseColumnNames="user_id" constraintName="fk__user_roles__users" referencedTableName="users"
+                                 referencedColumnNames="user_id"/>
+        <addForeignKeyConstraint baseTableName="user_roles" baseColumnNames="role_id" constraintName="fk__user_roles__roles" referencedTableName="roles"
+                                 referencedColumnNames="role_id"/>
+    </changeSet>
+</databaseChangeLog>
