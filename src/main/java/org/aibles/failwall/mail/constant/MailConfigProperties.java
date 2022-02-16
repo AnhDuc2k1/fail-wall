@@ -9,7 +9,4 @@ public class MailConfigProperties {
     public final static String MAIL_SMTP_AUTH = "true";
     public final static String MAIL_SMTP_START_TLS = "true";
 
-    public final static String MAIL_USERNAME = "anhduc2k1vn@gmail.com";
-    public final static String MAIL_PASSWORD = "nxtosrdrwgmvfzyv";
-
 }

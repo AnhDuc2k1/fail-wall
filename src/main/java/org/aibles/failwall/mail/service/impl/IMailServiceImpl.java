@@ -3,17 +3,18 @@ package org.aibles.failwall.mail.service.impl;
 import org.aibles.failwall.mail.dto.MailRequestDTO;
 import org.aibles.failwall.mail.service.IMailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import static org.aibles.failwall.mail.constant.MailConfigProperties.MAIL_USERNAME;
 
 @Service
 public class IMailServiceImpl implements IMailService {
 
     private final JavaMailSender javaMailSender;
 
-    private final static String mailFrom = MAIL_USERNAME;
+    @Value("${spring.mail.username}")
+    private String mailFrom;
 
     @Autowired
     public IMailServiceImpl(JavaMailSender javaMailSender) {

@@ -3,7 +3,7 @@ package org.aibles.failwall.authentication.security;
 import io.jsonwebtoken.*;
 import org.aibles.failwall.authentication.exception.JwtAuthenticationException;
 import org.aibles.failwall.authentication.service.UserPrincipalService;
-import org.aibles.failwall.authentication.user.models.Role;
+import org.aibles.failwall.user.models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
