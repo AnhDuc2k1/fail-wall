@@ -1,4 +1,4 @@
-package org.aibles.failwall.authentication.user.models;
+package org.aibles.failwall.user.models;
 
 import org.springframework.data.annotation.Id;
 
