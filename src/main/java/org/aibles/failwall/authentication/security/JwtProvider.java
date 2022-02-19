@@ -17,16 +17,20 @@ import java.util.Set;
 @Component
 public class JwtProvider {
 
+    private final UserPrincipalService userDetailsService;
+
     @Autowired
-    private UserPrincipalService userDetailsService;
+    public JwtProvider(UserPrincipalService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
-    private static String JWT_HEADER = "Authorization";
+    private final static String JWT_HEADER = "Authorization";
 
-    private static String JWT_SECRET_KEY = "aibles";
+    private final static String JWT_SECRET_KEY = "aibles";
 
-    private static long EXPIRATION_TIME_OF_JWT = 604800;
+    private final static long EXPIRATION_TIME_OF_JWT = 604800;
 
-    private static String JWT_PREFIX= "Bearer";
+    private final static String JWT_PREFIX= "Bearer";
 
     public String generateToken(String email, Set<Role> userRoles){
         Claims claims = Jwts.claims().setSubject(email);

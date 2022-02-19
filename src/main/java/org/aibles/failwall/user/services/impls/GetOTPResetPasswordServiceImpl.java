@@ -1,0 +1,77 @@
+package org.aibles.failwall.user.services.impls;
+
+import com.google.common.cache.LoadingCache;
+import org.aibles.failwall.exception.EmailNotFoundException;
+import org.aibles.failwall.mail.dto.MailRequestDTO;
+import org.aibles.failwall.mail.service.impl.IMailServiceImpl;
+import org.aibles.failwall.user.dtos.request.GetOTPResetPasswordRequestDTO;
+import org.aibles.failwall.user.repositories.IUserRepository;
+import org.aibles.failwall.user.services.IGetOTPResetPasswordService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import java.util.Random;
+
+@Service
+public class GetOTPResetPasswordServiceImpl implements IGetOTPResetPasswordService {
+
+    private final IUserRepository userRepository;
+    private final IMailServiceImpl iMailService;
+    private final LoadingCache<String, String> otpCacche;
+
+    @Autowired
+    public GetOTPResetPasswordServiceImpl(IUserRepository userRepository, IMailServiceImpl iMailService, LoadingCache<String, String> otpCacche) {
+        this.userRepository = userRepository;
+        this.iMailService = iMailService;
+        this.otpCacche = otpCacche;
+    }
+
+    @Override
+    public void execute(GetOTPResetPasswordRequestDTO getOTPResetPasswordRequestDTO) {
+        validateGetOTPResetPasswordRequestForm(getOTPResetPasswordRequestDTO);
+    }
+
+    private void validateGetOTPResetPasswordRequestForm(GetOTPResetPasswordRequestDTO getOTPResetPasswordRequestDTO){
+        userRepository.findUserByEmail(getOTPResetPasswordRequestDTO.getEmail())
+                .ifPresentOrElse(
+                        user -> {
+                            sendOTPResetPassword(user.getEmail());
+                        },
+                        () -> {
+                            throw new EmailNotFoundException("Email not found", HttpStatus.NOT_FOUND);
+                        }
+                );
+    }
+
+    private void sendOTPResetPassword(String email){
+        final String otp = generateOTPResetPassword();
+        final String message = new StringBuilder()
+                .append("Your confirm reset password OTP code is ")
+                .append(otp)
+                .append(". This OTP will be expired about 3 minutes.").toString();
+
+        MailRequestDTO mailRequestDTO = new MailRequestDTO();
+        mailRequestDTO.setReceiver(email);
+        mailRequestDTO.setSubject("Confirm reset password");
+        mailRequestDTO.setMessage(message);
+
+        iMailService.sendMail(mailRequestDTO);
+
+        otpCacche.put(email, otp);
+    }
+
+    private String generateOTPResetPassword(){
+        StringBuilder otp = new StringBuilder();
+        Random random = new Random();
+
+        final int otpLength = 6;
+
+        for (int i = 0; i < otpLength; i++) {
+            int randomNumber = random.nextInt(9);
+            otp.append(randomNumber);
+        }
+        return otp.toString();
+    }
+
+}

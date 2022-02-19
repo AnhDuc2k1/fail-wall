@@ -1,6 +1,7 @@
 package org.aibles.failwall.authentication.exception;
 
 import lombok.Getter;
+import org.aibles.failwall.exception.AbstractException;
 import org.springframework.http.HttpStatus;
 
 @Getter
