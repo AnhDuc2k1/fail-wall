@@ -18,13 +18,13 @@ public class GetOTPResetPasswordServiceImpl implements IGetOTPResetPasswordServi
 
     private final IUserRepository userRepository;
     private final IMailServiceImpl iMailService;
-    private final LoadingCache<String, String> otpCacche;
+    private final LoadingCache<String, String> otpCache;
 
     @Autowired
-    public GetOTPResetPasswordServiceImpl(IUserRepository userRepository, IMailServiceImpl iMailService, LoadingCache<String, String> otpCacche) {
+    public GetOTPResetPasswordServiceImpl(IUserRepository userRepository, IMailServiceImpl iMailService, LoadingCache<String, String> otpCache) {
         this.userRepository = userRepository;
         this.iMailService = iMailService;
-        this.otpCacche = otpCacche;
+        this.otpCache = otpCache;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class GetOTPResetPasswordServiceImpl implements IGetOTPResetPasswordServi
     }
 
     private void sendOTPResetPassword(String email){
-        final String otp = generateOTPResetPassword();
+        final String otp = generateOTPResetPassword(email);
         final String message = new StringBuilder()
                 .append("Your confirm reset password OTP code is ")
                 .append(otp)
@@ -57,11 +57,9 @@ public class GetOTPResetPasswordServiceImpl implements IGetOTPResetPasswordServi
         mailRequestDTO.setMessage(message);
 
         iMailService.sendMail(mailRequestDTO);
-
-        otpCacche.put(email, otp);
     }
 
-    private String generateOTPResetPassword(){
+    private String generateOTPResetPassword(String email){
         StringBuilder otp = new StringBuilder();
         Random random = new Random();
 
@@ -71,6 +69,9 @@ public class GetOTPResetPasswordServiceImpl implements IGetOTPResetPasswordServi
             int randomNumber = random.nextInt(9);
             otp.append(randomNumber);
         }
+
+        otpCache.put(email, otp.toString());
+
         return otp.toString();
     }
 
