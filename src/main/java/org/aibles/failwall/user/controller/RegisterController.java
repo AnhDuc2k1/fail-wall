@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/user/register")
 public class RegisterController {
 
     private final IUserRegisterService service;
@@ -20,7 +20,7 @@ public class RegisterController {
         this.service = service;
     }
 
-    @PostMapping("/register")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponseDto execute(@RequestBody @Valid RegisterFormDto registerFormDto) {
         return service.execute(registerFormDto);
