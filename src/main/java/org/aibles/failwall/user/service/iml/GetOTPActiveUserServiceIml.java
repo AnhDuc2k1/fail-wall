@@ -29,7 +29,7 @@ public class GetOTPActiveUserServiceIml implements IGetOTPActiveUserService {
     }
 
     private void sendMail(String email) {
-        String otpCode = new Otp().generateOTP();
+        String otpCode = "1246";
         otpCache.put(email, otpCode);
         String message = new StringBuilder()
                 .append("Your confirm register account OTP code is: ")

@@ -11,12 +11,12 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class CacheConfiguration {
 
-    private static final int OTP_EXPIRE_MINUTES = 3;
+    private static final int OTP_LIFE_TIME = 3;
 
     @Bean
     public LoadingCache<String, String> createOtpCacheBean() {
         return CacheBuilder.newBuilder()
-                .expireAfterWrite(OTP_EXPIRE_MINUTES, TimeUnit.MINUTES)
+                .expireAfterWrite(OTP_LIFE_TIME, TimeUnit.MINUTES)
                 .build(new CacheLoader<String, String>() {
                     @Override
                     public String load(String key) throws Exception {
