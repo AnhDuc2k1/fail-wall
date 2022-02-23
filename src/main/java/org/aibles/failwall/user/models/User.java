@@ -1,42 +1,43 @@
 package org.aibles.failwall.user.models;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
+@Table(value = "users")
 public class User {
 
     @Id
-    private Integer id;
-    private String username;
+    private Long userId;
+    private String name;
     private String email;
     private String password;
-    private boolean isActive;
+    private boolean isActived;
 
-    public User() {
-
-    }
-
-    public User(Integer id, String username, String email, String password, boolean isActive) {
-        this.id = id;
-        this.username = username;
+    public User(Long userId, String name, String email, String password, boolean isActived) {
+        this.userId = userId;
+        this.name = name;
         this.email = email;
         this.password = password;
-        this.isActive = isActive;
+        this.isActived = isActived;
     }
 
-    public Integer getId() {
-        return id;
+    public User() {
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public String getUsername() {
-        return username;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -55,23 +56,17 @@ public class User {
         this.password = password;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public boolean getIsActive() {
+        return isActived;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setIsActived(boolean isActived) {
+        this.isActived = isActived;
     }
 
-    @Override
-    public String
-    toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", isActive=" + isActive +
-                '}';
+    public void doBeforeInsert() {
+        setIsActived(false);
     }
 }
+
+

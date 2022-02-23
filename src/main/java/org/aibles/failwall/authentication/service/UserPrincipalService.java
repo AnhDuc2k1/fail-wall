@@ -1,5 +1,6 @@
 package org.aibles.failwall.authentication.service;
 
+import org.aibles.failwall.user.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,10 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserPrincipalService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final IUserRepository userRepository;
 
     @Autowired
-    public UserPrincipalService(UserRepository userRepository){
+    public UserPrincipalService(IUserRepository userRepository){
         this.userRepository = userRepository;
     }
 
