@@ -22,7 +22,7 @@ public class RegisterController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponseDto  execute(@RequestBody @Valid RegisterFormDto registerFormDto) {
+    public UserResponseDto execute(@RequestBody @Valid RegisterFormDto registerFormDto) {
         return service.execute(registerFormDto);
     }
 }
