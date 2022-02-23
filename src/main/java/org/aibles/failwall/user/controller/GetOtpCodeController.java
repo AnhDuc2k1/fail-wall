@@ -22,7 +22,7 @@ public class GetOtpCodeController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void active(ActiveUserFormRequestDto activeUserFormRequestDto) {
         service.execute(activeUserFormRequestDto);
     }

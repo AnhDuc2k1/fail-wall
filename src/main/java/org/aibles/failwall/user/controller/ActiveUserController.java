@@ -21,7 +21,7 @@ public class ActiveUserController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void execute(@Valid @RequestBody ActiveUserFormRequestDto activeUserFormRequestDto) {
         service.execute(activeUserFormRequestDto);
     }
