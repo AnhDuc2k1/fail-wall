@@ -1,26 +1,28 @@
 package org.aibles.failwall.user.models;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
+@Table(value = "users")
 public class User {
 
     @Id
     private Long id;
-    private String username;
+    private String name;
     private String email;
     private String password;
-    private boolean isActive;
+    private boolean isActived;
 
     public User() {
 
     }
 
-    public User(Long id, String username, String email, String password, boolean isActive) {
+    public User(Long id, String name, String email, String password, boolean isActived) {
         this.id = id;
-        this.username = username;
+        this.name = name;
         this.email = email;
         this.password = password;
-        this.isActive = isActive;
+        this.isActived = isActived;
     }
 
     public Long getId() {
@@ -31,12 +33,16 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public void setActived(boolean actived) {
+        isActived = actived;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -55,12 +61,12 @@ public class User {
         this.password = password;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public boolean isActived() {
+        return isActived;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setActive(boolean actived) {
+        isActived = actived;
     }
 
     @Override
@@ -68,10 +74,10 @@ public class User {
     toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", username='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", isActive=" + isActive +
+                ", isActive=" + isActived +
                 '}';
     }
 }

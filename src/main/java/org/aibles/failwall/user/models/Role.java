@@ -1,5 +1,8 @@
 package org.aibles.failwall.user.models;
 
+import org.springframework.data.relational.core.mapping.Table;
+
+@Table(value = "roles")
 public class Role {
     private Long id;
     private String name;
