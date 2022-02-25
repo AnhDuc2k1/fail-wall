@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class GetOTPActiveUserServiceIml implements IGetOTPActiveUserService {
+public class OTPGetActiveUserServiceIml implements IGetOTPActiveUserService {
 
     private final LoadingCache<String, String> otpCache;
     private final IMailService mailService;
 
     @Autowired
-    public GetOTPActiveUserServiceIml(LoadingCache<String, String> otpCache, IMailService mailService) {
+    public OTPGetActiveUserServiceIml(LoadingCache<String, String> otpCache, IMailService mailService) {
         this.otpCache = otpCache;
         this.mailService = mailService;
     }
@@ -29,7 +29,7 @@ public class GetOTPActiveUserServiceIml implements IGetOTPActiveUserService {
     }
 
     private void sendMail(String email) {
-        String otpCode = "1246";
+        String otpCode = new Otp().generateOTP();
         otpCache.put(email, otpCode);
         String message = new StringBuilder()
                 .append("Your confirm register account OTP code is: ")

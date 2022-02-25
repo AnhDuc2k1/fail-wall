@@ -11,17 +11,19 @@ import java.util.Random;
 @NoArgsConstructor
 public class Otp {
 
-    private StringBuilder otpCode = new StringBuilder();
+    private static StringBuilder otpCode = new StringBuilder();
 
-    private char[] number = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    private static char[] number = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
-    private final int SIZE_OF_OTP_NUMBER = 6;
+    private final static int SIZE_OF_OTP_NUMBER = 6;
 
-    public String generateOTP() {
+    public static String generateOTP() {
         Random random = new Random();
         for (int i = 0; i < SIZE_OF_OTP_NUMBER; i++) {
             otpCode.append(number[random.nextInt(number.length)]);
         }
         return otpCode.toString();
     }
+
+    public class Otp() {}
 }

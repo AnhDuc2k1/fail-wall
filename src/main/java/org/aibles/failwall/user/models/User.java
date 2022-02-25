@@ -1,20 +1,22 @@
 package org.aibles.failwall.user.models;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.Persistent;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table(value = "users")
 public class User {
 
     @Id
-    private Long userId;
+    private Long id;
     private String name;
     private String email;
     private String password;
     private boolean isActived;
 
-    public User(Long userId, String name, String email, String password, boolean isActived) {
-        this.userId = userId;
+    public User(Long id, String name, String email, String password, boolean isActived) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -24,12 +26,12 @@ public class User {
     public User() {
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -64,9 +66,6 @@ public class User {
         this.isActived = isActived;
     }
 
-    public void doBeforeInsert() {
-        setIsActived(false);
-    }
 }
 
 

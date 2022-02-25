@@ -12,6 +12,7 @@ import org.aibles.failwall.user.repository.IUserRepository;
 import org.aibles.failwall.user.service.IUserRegisterService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -40,13 +41,15 @@ public class UserRegisterServiceIml implements IUserRegisterService {
     }
 
     @Override
+    @Async
     public UserResponseDto execute(RegisterFormDto registerForm) {
         validateRegisterFormDto(registerForm);
         User newUser = modelMapper.map(registerForm, User.class);
         newUser.setPassword(passwordEncoder.encode(registerForm.getPassword()));
-        newUser.doBeforeInsert();
+        newUser.setIsActived(false);
+        iUserRepository.save(newUser);
         sendMail(registerForm.getEmail());
-        return modelMapper.map(iUserRepository.save(newUser), UserResponseDto.class);
+        return modelMapper.map(iUserRepository.findByEmail(registerForm.getEmail()).get(), UserResponseDto.class);
     }
 
     private void validateRegisterFormDto(RegisterFormDto registerFormDto) {
@@ -65,7 +68,7 @@ public class UserRegisterServiceIml implements IUserRegisterService {
     }
 
     private void sendMail(String email) {
-        String otpCode = "123467";
+        String otpCode = new Otp().generateOTP();
         otpCache.put(email, otpCode);
         String message = new StringBuilder()
                 .append("Your confirm register account OTP code is: ")
@@ -78,8 +81,5 @@ public class UserRegisterServiceIml implements IUserRegisterService {
         mailRequestDTO.setMessage(message);
         mailRequestDTO.setSubject("verify account");
         mailService.sendMail(mailRequestDTO);
-
-        mailRequestDTO = null;
-        otpCode = null;
     }
 }
