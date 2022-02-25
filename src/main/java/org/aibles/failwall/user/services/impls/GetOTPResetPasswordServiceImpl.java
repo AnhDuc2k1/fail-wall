@@ -9,6 +9,7 @@ import org.aibles.failwall.user.repositories.IUserRepository;
 import org.aibles.failwall.user.services.IGetOTPResetPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -28,6 +29,7 @@ public class GetOTPResetPasswordServiceImpl implements IGetOTPResetPasswordServi
     }
 
     @Override
+    @Async
     public void execute(GetOTPResetPasswordRequestDTO getOTPResetPasswordRequestDTO) {
         validateGetOTPResetPasswordRequestForm(getOTPResetPasswordRequestDTO);
     }
