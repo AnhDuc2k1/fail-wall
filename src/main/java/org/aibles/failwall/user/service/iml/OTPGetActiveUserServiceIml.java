@@ -7,6 +7,7 @@ import org.aibles.failwall.otp.Otp;
 import org.aibles.failwall.user.dto.request.ActiveUserFormRequestDto;
 import org.aibles.failwall.user.service.IGetOTPActiveUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 
@@ -28,7 +29,8 @@ public class OTPGetActiveUserServiceIml implements IGetOTPActiveUserService {
         sendMail(email);
     }
 
-    private void sendMail(String email) {
+    @Async
+    void sendMail(String email) {
         String otpCode = new Otp().generateOTP();
         otpCache.put(email, otpCode);
         String message = new StringBuilder()

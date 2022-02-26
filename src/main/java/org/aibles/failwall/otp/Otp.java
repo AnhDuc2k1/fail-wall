@@ -1,14 +1,7 @@
 package org.aibles.failwall.otp;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.Random;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Otp {
 
     private static StringBuilder otpCode = new StringBuilder();
@@ -25,5 +18,6 @@ public class Otp {
         return otpCode.toString();
     }
 
-    public class Otp() {}
+    public Otp() {
+    }
 }

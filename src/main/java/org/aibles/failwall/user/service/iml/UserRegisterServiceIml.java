@@ -41,7 +41,6 @@ public class UserRegisterServiceIml implements IUserRegisterService {
     }
 
     @Override
-    @Async
     public UserResponseDto execute(RegisterFormDto registerForm) {
         validateRegisterFormDto(registerForm);
         User newUser = modelMapper.map(registerForm, User.class);
@@ -67,7 +66,8 @@ public class UserRegisterServiceIml implements IUserRegisterService {
         }
     }
 
-    private void sendMail(String email) {
+    @Async
+    void sendMail(String email) {
         String otpCode = new Otp().generateOTP();
         otpCache.put(email, otpCode);
         String message = new StringBuilder()
