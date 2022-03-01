@@ -10,7 +10,7 @@
     <changeSet id="20220119-0841-002" author="MinhTT">
         <loadData tableName="roles" relativeToChangelogFile="true" separator="," file="roles.csv" quotchar="&quot;"
                   encoding="UTF-8" schemaName="project">
-            <column header="role_id" name="role_id" type="NUMERIC"/>
+            <column header="id" name="id" type="NUMERIC"/>
             <column header="name" name="name" type="STRING"/>
         </loadData>
     </changeSet>
