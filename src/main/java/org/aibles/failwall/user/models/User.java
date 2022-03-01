@@ -1,23 +1,21 @@
 package org.aibles.failwall.user.models;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
+@Table("users")
 public class User {
 
     @Id
     private Integer id;
-    private String username;
+    private String name;
     private String email;
     private String password;
     private boolean isActive;
 
-    public User() {
-
-    }
-
-    public User(Integer id, String username, String email, String password, boolean isActive) {
+    public User(Integer id, String name, String email, String password, boolean isActive) {
         this.id = id;
-        this.username = username;
+        this.name = name;
         this.email = email;
         this.password = password;
         this.isActive = isActive;
@@ -31,12 +29,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -61,17 +59,5 @@ public class User {
 
     public void setActive(boolean active) {
         isActive = active;
-    }
-
-    @Override
-    public String
-    toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", isActive=" + isActive +
-                '}';
     }
 }
