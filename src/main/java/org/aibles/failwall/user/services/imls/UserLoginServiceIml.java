@@ -44,7 +44,7 @@ public class UserLoginServiceIml implements UserLoginService {
         UserRepository.findUserByEmail(loginRequestDTO.getEmail())
                 .ifPresentOrElse(
                         User -> {
-                            if(!User.isActive()){
+                            if(!User.isActivated()){
                                 errorMap.put("user", "user is not activated");
                             }
 

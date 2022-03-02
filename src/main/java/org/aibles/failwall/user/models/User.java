@@ -11,14 +11,14 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private boolean isActive;
+    private boolean isActivated;
 
-    public User(Integer id, String name, String email, String password, boolean isActive) {
+    public User(Integer id, String name, String email, String password, boolean isActivated) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.isActive = isActive;
+        this.isActivated = isActivated;
     }
 
     public Integer getId() {
@@ -53,11 +53,11 @@ public class User {
         this.password = password;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public boolean isActivated() {
+        return isActivated;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setActivated(boolean activated) {
+        isActivated = activated;
     }
 }
