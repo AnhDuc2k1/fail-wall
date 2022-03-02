@@ -44,8 +44,5 @@ public class OTPGetActiveUserServiceIml implements IGetOTPActiveUserService {
         mailRequestDTO.setMessage(message);
         mailRequestDTO.setSubject("verify account");
         mailService.sendMail(mailRequestDTO);
-
-        mailRequestDTO = null;
-        otpCode = null;
     }
 }
