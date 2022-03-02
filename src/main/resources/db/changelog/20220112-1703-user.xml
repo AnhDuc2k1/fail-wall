@@ -15,7 +15,7 @@
             <column name="name" type="varchar(50)"/>
             <column name="email" type="varchar(128)"/>
             <column name="password" type="varchar(256)"/>
-            <column name="is_active" type="boolean"/>
+            <column name="is_activated" type="boolean"/>
         </createTable>
     </changeSet>
 
