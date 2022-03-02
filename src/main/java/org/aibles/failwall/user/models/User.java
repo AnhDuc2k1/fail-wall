@@ -13,14 +13,14 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private boolean isActived;
+    private boolean isActivated;
 
-    public User(Long id, String name, String email, String password, boolean isActived) {
+    public User(Long id, String name, String email, String password, boolean isActivated) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.isActived = isActived;
+        this.isActivated = isActivated;
     }
 
     public User() {
@@ -58,12 +58,12 @@ public class User {
         this.password = password;
     }
 
-    public boolean getIsActive() {
-        return isActived;
+    public boolean getIsActivated() {
+        return isActivated;
     }
 
-    public void setIsActived(boolean isActived) {
-        this.isActived = isActived;
+    public void setIsActivated(boolean isActivated) {
+        this.isActivated = isActivated;
     }
 
 }

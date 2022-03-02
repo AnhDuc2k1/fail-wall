@@ -45,7 +45,7 @@ public class UserRegisterServiceIml implements IUserRegisterService {
         validateRegisterFormDto(registerForm);
         User newUser = modelMapper.map(registerForm, User.class);
         newUser.setPassword(passwordEncoder.encode(registerForm.getPassword()));
-        newUser.setIsActived(false);
+        newUser.setIsActivated(false);
         iUserRepository.save(newUser);
         sendMail(registerForm.getEmail());
         return modelMapper.map(iUserRepository.findByEmail(registerForm.getEmail()).get(), UserResponseDto.class);

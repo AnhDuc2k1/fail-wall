@@ -28,7 +28,7 @@ public class UserActiveServiceIml implements IActiveUserService {
         String email = activeUserFormRequestDto.getEmail();
         validateInput(activeUserFormRequestDto);
         userRepository.findByEmail(email).map( user -> {
-            user.setIsActived(true);
+            user.setIsActivated(true);
             return userRepository.save(user);
         });
     }
