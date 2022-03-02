@@ -9,10 +9,10 @@
 
     <changeSet id="20220112-1712-001" author="NgocNB">
         <createTable tableName="roles">
-            <column name="role_id" type="bigint" autoIncrement="true">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_role_id"/>
             </column>
-            <column name="name" type="varchar(50)"/>
+            <column name="name" type="varchar(10)"/>
         </createTable>
     </changeSet>
 
