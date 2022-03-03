@@ -3,7 +3,7 @@ package org.aibles.failwall.user.dto.response;
 public class UserResponseDto {
     private String name;
     private String email;
-    private boolean isActived;
+    private boolean isActivated;
 
     public String getName() {
         return name;
@@ -21,20 +21,20 @@ public class UserResponseDto {
         this.email = email;
     }
 
-    public boolean isActived() {
-        return isActived;
+    public boolean isActivated() {
+        return isActivated;
     }
 
-    public void setActived(boolean actived) {
-        isActived = actived;
+    public void setIsActivated(boolean isActivated) {
+        this.isActivated = isActivated;
     }
 
     public UserResponseDto() {
     }
 
-    public UserResponseDto(String name, String email, boolean isActived) {
+    public UserResponseDto(String name, String email, boolean isActivated) {
         this.name = name;
         this.email = email;
-        this.isActived = isActived;
+        this.isActivated = isActivated;
     }
 }
