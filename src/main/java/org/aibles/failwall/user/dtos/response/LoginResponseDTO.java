@@ -3,8 +3,8 @@ package org.aibles.failwall.user.dtos.response;
 
 public class LoginResponseDTO {
     private String accessToken;
-    private final String tokenType = "Bearer";
-    private final long expiration_time = 604800000;
+    private static final String tokenType = "Bearer";
+    private static final long expirationTime = 604800000;
 
     public LoginResponseDTO(String accessToken) {
         this.accessToken = accessToken;
@@ -22,7 +22,7 @@ public class LoginResponseDTO {
         return tokenType;
     }
 
-    public long getExpiration_time() {
-        return expiration_time;
+    public long getExpirationTime() {
+        return expirationTime;
     }
 }
