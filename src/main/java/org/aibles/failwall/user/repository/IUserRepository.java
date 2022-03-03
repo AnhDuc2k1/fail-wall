@@ -19,5 +19,3 @@ public interface IUserRepository extends CrudRepository<User, Long> {
     Boolean isActiveUserByEmail(@Param("email") String email);
 
 }
-
-
