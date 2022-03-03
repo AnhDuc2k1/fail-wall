@@ -18,22 +18,22 @@ import java.util.Map;
 public class UserLoginServiceIml implements UserLoginService {
 
     private final JwtProvider jwtProvider;
-    private final UserRepository UserRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserLoginServiceIml(final JwtProvider jwtProvider,
-                               final UserRepository UserRepository,
+                               final UserRepository userRepository,
                                final PasswordEncoder passwordEncoder) {
         this.jwtProvider = jwtProvider;
-        this.UserRepository = UserRepository;
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public LoginResponseDTO execute(LoginRequestDTO loginRequestDTO) {
         validateLoginRequest(loginRequestDTO);
-        User user = UserRepository.findUserByEmail(loginRequestDTO.getEmail()).orElse(null);
+        User user = userRepository.findUserByEmail(loginRequestDTO.getEmail()).orElse(null);
         String token = jwtProvider.generateToken(user.getEmail());
         return new LoginResponseDTO(token);
     }
@@ -41,7 +41,7 @@ public class UserLoginServiceIml implements UserLoginService {
     private void validateLoginRequest(LoginRequestDTO loginRequestDTO){
         Map<String, String> errorMap = new HashMap<>();
 
-        UserRepository.findUserByEmail(loginRequestDTO.getEmail())
+        userRepository.findUserByEmail(loginRequestDTO.getEmail())
                 .ifPresentOrElse(
                         User -> {
                             if(!User.isActivated()){

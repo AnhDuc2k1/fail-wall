@@ -4,7 +4,7 @@ package org.aibles.failwall.user.dtos.response;
 public class LoginResponseDTO {
     private String accessToken;
     private final String tokenType = "Bearer";
-    private final long jwtLifeTimeMillisecond = 604800 * 1000;
+    private final long expiration_time = 604800000;
 
     public LoginResponseDTO(String accessToken) {
         this.accessToken = accessToken;
@@ -22,7 +22,7 @@ public class LoginResponseDTO {
         return tokenType;
     }
 
-    public long getJwtLifeTimeMillisecond() {
-        return jwtLifeTimeMillisecond;
+    public long getExpiration_time() {
+        return expiration_time;
     }
 }
