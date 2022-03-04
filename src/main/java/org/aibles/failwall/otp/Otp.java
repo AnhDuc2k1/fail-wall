@@ -17,7 +17,4 @@ public class Otp {
         }
         return otpCode.toString();
     }
-
-    public Otp() {
-    }
 }

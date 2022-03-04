@@ -1,6 +1,7 @@
 package org.aibles.failwall.exception.handle;
 
 import org.aibles.failwall.exception.AbstractException;
+import org.aibles.failwall.exception.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
