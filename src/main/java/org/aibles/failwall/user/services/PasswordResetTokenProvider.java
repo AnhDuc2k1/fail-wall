@@ -1,28 +1,23 @@
-package org.aibles.failwall.authentication.security;
+package org.aibles.failwall.user.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Component
 public class PasswordResetTokenProvider {
 
-    private static final String TOKEN_HEADER = "Authorization";
-
     private static final String TOKEN_SECRET_KEY = "aibles-reset-password";
 
-    private static final long EXPIRATION_TIME_OF_TOKEN = 604800;
-
-    private static final String TOKEN_PREFIX = "Bearer";
+    private static final long TOKEN_LIFE_TIME_MILLISECOND = 604800 * 1000;
 
     public String generatePasswordResetToken(String email){
         Claims claims = Jwts.claims().setSubject(email);
         Date now = new Date();
-        Date expirationDate = new Date(now.getTime() + EXPIRATION_TIME_OF_TOKEN * 1000);
+        Date expirationDate = new Date(now.getTime() + TOKEN_LIFE_TIME_MILLISECOND);
         return Jwts.builder().setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expirationDate)
@@ -46,14 +41,6 @@ public class PasswordResetTokenProvider {
     private Date getExpirationDateFromToken(String passwordResetToken){
         return Jwts.parser().setSigningKey(TOKEN_SECRET_KEY)
                 .parseClaimsJws(passwordResetToken).getBody().getExpiration();
-    }
-
-    public String getTokenFromHeader(HttpServletRequest request) {
-        String token = request.getHeader(TOKEN_HEADER);
-        if (token != null && token.startsWith(TOKEN_PREFIX)){
-            return token.substring(7);
-        }
-        return null;
     }
 
 }
