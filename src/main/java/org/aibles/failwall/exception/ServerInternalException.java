@@ -1,19 +1,11 @@
 package org.aibles.failwall.exception;
 
-public class ServerInternalException extends RuntimeException{
+import org.springframework.http.HttpStatus;
 
-    private static final long serialVersionUID = 21341234124231l;
+public class ServerInternalException extends AbstractException{
 
-    private final String message;
-
-    public ServerInternalException(String message) {
-        super();
-        this.message = message;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
+    public ServerInternalException() {
+        super("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
