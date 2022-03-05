@@ -1,13 +1,14 @@
 package org.aibles.failwall.user.services.impls;
 
 import com.google.common.cache.LoadingCache;
-import org.aibles.failwall.authentication.security.PasswordResetTokenProvider;
+import org.aibles.failwall.exception.EmailNotFoundException;
 import org.aibles.failwall.exception.BadRequestException;
 import org.aibles.failwall.exception.ServerInternalException;
 import org.aibles.failwall.user.dtos.request.VerifyOTPResetPasswordRequestDTO;
 import org.aibles.failwall.user.dtos.response.JwtPasswordResetResponseDTO;
 import org.aibles.failwall.user.repositories.IUserRepository;
 import org.aibles.failwall.user.services.IVerifyOTPResetPasswordService;
+import org.aibles.failwall.user.services.PasswordResetTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,9 @@ public class VerifyOTPResetPasswordServiceImpl implements IVerifyOTPResetPasswor
     private final PasswordResetTokenProvider passwordResetTokenProvider;
 
     @Autowired
-    public VerifyOTPResetPasswordServiceImpl(IUserRepository iUserRepository, LoadingCache<String, String> otpCache, PasswordResetTokenProvider passwordResetTokenProvider) {
+    public VerifyOTPResetPasswordServiceImpl(IUserRepository iUserRepository,
+                                             LoadingCache<String, String> otpCache,
+                                             PasswordResetTokenProvider passwordResetTokenProvider) {
         this.iUserRepository = iUserRepository;
         this.otpCache = otpCache;
         this.passwordResetTokenProvider = passwordResetTokenProvider;
@@ -31,30 +34,38 @@ public class VerifyOTPResetPasswordServiceImpl implements IVerifyOTPResetPasswor
 
     @Override
     public JwtPasswordResetResponseDTO execute(VerifyOTPResetPasswordRequestDTO verifyOTPResetPasswordRequestDTO) {
-        validateVerifyOTPResetPasswordForm(verifyOTPResetPasswordRequestDTO);
+        validateInput(verifyOTPResetPasswordRequestDTO);
         return new JwtPasswordResetResponseDTO(getJWTResetPassword(verifyOTPResetPasswordRequestDTO.getEmail()));
     }
 
-    private void validateVerifyOTPResetPasswordForm(VerifyOTPResetPasswordRequestDTO verifyOTPResetPasswordRequestDTO){
+    private void validateInput(VerifyOTPResetPasswordRequestDTO verifyOTPResetPasswordRequestDTO){
         Map<String, String> errorMap = new HashMap<>();
-        try{
-            String otp = otpCache.get(verifyOTPResetPasswordRequestDTO.getEmail());
-            String otpRegex = "[0-9]+";
-            if (!otp.matches(otpRegex)){
-                errorMap.put("OTP", "OTP expired");
-            }
-            else if (!verifyOTPResetPasswordRequestDTO.getOtp().equals(otp)){
-                errorMap.put("OTP", "Invalid OTP.");
-            }
-        } catch (ExecutionException e){
-            throw new ServerInternalException("Internal server error");
-        }
+
+        String otpRegex = "[0-9]+";
+        iUserRepository.findUserByEmail(verifyOTPResetPasswordRequestDTO.getEmail())
+                .ifPresentOrElse(
+                        user -> {
+                            try{
+                                String otp = otpCache.get(verifyOTPResetPasswordRequestDTO.getEmail());
+                                if (!otp.matches(otpRegex)){
+                                    errorMap.put("OTP", "OTP expired");
+                                }
+                                else if (!verifyOTPResetPasswordRequestDTO.getOtp().equals(otp)){
+                                    errorMap.put("OTP", "Invalid OTP.");
+                                }
+                            } catch (ExecutionException e){
+                                throw new ServerInternalException();
+                            }
+                        },
+                        () -> {throw new EmailNotFoundException();}
+                );
+
         if (!errorMap.isEmpty()) {
             throw new BadRequestException(errorMap);
         }
     }
 
-    private String getJWTResetPassword(String email){
+    private String getJWTResetPassword(final String email){
         return passwordResetTokenProvider.generatePasswordResetToken(email);
     }
 
