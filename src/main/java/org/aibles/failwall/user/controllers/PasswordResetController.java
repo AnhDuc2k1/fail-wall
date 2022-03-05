@@ -6,11 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/users/reset-password")
+@RequestMapping("/api/v1/users/forgot-password")
 @ResponseStatus(HttpStatus.OK)
 public class PasswordResetController {
 
@@ -21,10 +20,9 @@ public class PasswordResetController {
         this.iPasswordResetService = iPasswordResetService;
     }
 
-    @PostMapping
-    public void execute(@RequestBody @Valid PasswordResetRequestDTO passwordResetRequestDTO,
-                        HttpServletRequest request){
-        iPasswordResetService.execute(passwordResetRequestDTO, request);
+    @PatchMapping
+    public void execute(@RequestBody @Valid PasswordResetRequestDTO passwordResetRequestDTO){
+        iPasswordResetService.execute(passwordResetRequestDTO);
     }
 
 }
