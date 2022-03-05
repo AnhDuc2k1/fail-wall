@@ -1,7 +1,5 @@
 package org.aibles.failwall.user.dtos.request;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -18,6 +16,9 @@ public class PasswordResetRequestDTO {
 
     @NotBlank(message = "New password confirmation is required")
     private String confirmPassword;
+
+    @NotBlank(message = "Password reset token is required")
+    private String passwordResetToken;
 
     public PasswordResetRequestDTO() {
     }
@@ -45,4 +46,13 @@ public class PasswordResetRequestDTO {
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
+
+    public String getPasswordResetToken() {
+        return passwordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
+    }
+
 }
