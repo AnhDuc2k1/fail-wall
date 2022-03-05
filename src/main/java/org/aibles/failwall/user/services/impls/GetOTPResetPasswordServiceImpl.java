@@ -8,8 +8,6 @@ import org.aibles.failwall.user.dtos.request.GetOTPResetPasswordRequestDTO;
 import org.aibles.failwall.user.repositories.IUserRepository;
 import org.aibles.failwall.user.services.IGetOTPResetPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -22,31 +20,27 @@ public class GetOTPResetPasswordServiceImpl implements IGetOTPResetPasswordServi
     private final LoadingCache<String, String> otpCache;
 
     @Autowired
-    public GetOTPResetPasswordServiceImpl(IUserRepository userRepository, IMailServiceImpl iMailService, LoadingCache<String, String> otpCache) {
+    public GetOTPResetPasswordServiceImpl(IUserRepository userRepository,
+                                          IMailServiceImpl iMailService,
+                                          LoadingCache<String, String> otpCache) {
         this.userRepository = userRepository;
         this.iMailService = iMailService;
         this.otpCache = otpCache;
     }
 
     @Override
-    @Async
     public void execute(GetOTPResetPasswordRequestDTO getOTPResetPasswordRequestDTO) {
-        validateGetOTPResetPasswordRequestForm(getOTPResetPasswordRequestDTO);
+        validateInput(getOTPResetPasswordRequestDTO);
+        sendResetPasswordEmail(getOTPResetPasswordRequestDTO.getEmail());
     }
 
-    private void validateGetOTPResetPasswordRequestForm(GetOTPResetPasswordRequestDTO getOTPResetPasswordRequestDTO){
+    public void validateInput(GetOTPResetPasswordRequestDTO getOTPResetPasswordRequestDTO){
         userRepository.findUserByEmail(getOTPResetPasswordRequestDTO.getEmail())
-                .ifPresentOrElse(
-                        user -> {
-                            sendOTPResetPassword(user.getEmail());
-                        },
-                        () -> {
-                            throw new EmailNotFoundException("Email not found", HttpStatus.NOT_FOUND);
-                        }
+                .orElseThrow(() -> new EmailNotFoundException()
                 );
     }
 
-    private void sendOTPResetPassword(String email){
+    public void sendResetPasswordEmail(final String email){
         final String otp = generateOTPResetPassword(email);
         final String message = new StringBuilder()
                 .append("Your confirm reset password OTP code is ")
@@ -61,7 +55,7 @@ public class GetOTPResetPasswordServiceImpl implements IGetOTPResetPasswordServi
         iMailService.sendMail(mailRequestDTO);
     }
 
-    private String generateOTPResetPassword(String email){
+    public String generateOTPResetPassword(final String email){
         StringBuilder otp = new StringBuilder();
         Random random = new Random();
 
