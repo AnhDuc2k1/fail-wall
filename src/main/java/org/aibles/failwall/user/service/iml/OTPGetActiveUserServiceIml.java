@@ -29,7 +29,6 @@ public class OTPGetActiveUserServiceIml implements IGetOTPActiveUserService {
         sendMail(email);
     }
 
-    @Async
     void sendMail(final String email) {
         String otpCode = new Otp().generateOTP();
         otpCache.put(email, otpCode);

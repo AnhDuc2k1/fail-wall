@@ -66,7 +66,6 @@ public class UserRegisterServiceIml implements IUserRegisterService {
         }
     }
 
-    @Async
     void sendMail(final String email) {
         String otpCode = new Otp().generateOTP();
         otpCache.put(email, otpCode);
