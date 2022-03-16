@@ -2,7 +2,7 @@ package org.aibles.failwall.user.controller;
 
 
 import org.aibles.failwall.user.dto.request.ActiveUserFormRequestDto;
-import org.aibles.failwall.user.service.IGetOTPActiveUserService;
+import org.aibles.failwall.user.service.GetOTPActiveUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/user/get-otp")
 public class GetOtpCodeController {
 
-    private final IGetOTPActiveUserService service;
+    private final GetOTPActiveUserService service;
 
     @Autowired
-    public GetOtpCodeController(IGetOTPActiveUserService service) {
+    public GetOtpCodeController(GetOTPActiveUserService service) {
         this.service = service;
     }
 

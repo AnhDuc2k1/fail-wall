@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface IUserRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query("SELECT u.id, u.name, u.email, u.password, u.is_actived  FROM users u WHERE u.email = :email")
     Optional<User> findByEmail(@Param("email") String email);

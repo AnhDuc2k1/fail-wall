@@ -5,14 +5,13 @@ import org.aibles.failwall.mail.dto.MailRequestDTO;
 import org.aibles.failwall.mail.service.IMailService;
 import org.aibles.failwall.otp.Otp;
 import org.aibles.failwall.user.dto.request.ActiveUserFormRequestDto;
-import org.aibles.failwall.user.service.IGetOTPActiveUserService;
+import org.aibles.failwall.user.service.GetOTPActiveUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class OTPGetActiveUserServiceIml implements IGetOTPActiveUserService {
+public class OTPGetActiveUserServiceIml implements GetOTPActiveUserService {
 
     private final LoadingCache<String, String> otpCache;
     private final IMailService mailService;

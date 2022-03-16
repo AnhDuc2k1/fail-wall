@@ -2,8 +2,8 @@ package org.aibles.failwall.user.service;
 
 import org.aibles.failwall.user.dto.request.ActiveUserFormRequestDto;
 
-public interface IActiveUserService {
+public interface GetOTPActiveUserService {
 
-     void execute(ActiveUserFormRequestDto activeUserFormRequestDto);
+    void execute(ActiveUserFormRequestDto activeUserFormRequestDto);
 
 }

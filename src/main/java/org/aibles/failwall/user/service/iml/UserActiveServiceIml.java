@@ -3,8 +3,8 @@ package org.aibles.failwall.user.service.iml;
 import com.google.common.cache.LoadingCache;
 import org.aibles.failwall.exception.BadRequestException;
 import org.aibles.failwall.user.dto.request.ActiveUserFormRequestDto;
-import org.aibles.failwall.user.repository.IUserRepository;
-import org.aibles.failwall.user.service.IActiveUserService;
+import org.aibles.failwall.user.repository.UserRepository;
+import org.aibles.failwall.user.service.ActiveUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +12,13 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 @Service
-public class UserActiveServiceIml implements IActiveUserService {
+public class UserActiveServiceIml implements ActiveUserService {
 
-    private final IUserRepository userRepository;
+    private final UserRepository userRepository;
     private final LoadingCache<String, String> otpCache;
 
     @Autowired
-    public UserActiveServiceIml(IUserRepository userRepository, LoadingCache<String, String> otpCache) {
+    public UserActiveServiceIml(UserRepository userRepository, LoadingCache<String, String> otpCache) {
         this.userRepository = userRepository;
         this.otpCache = otpCache;
     }

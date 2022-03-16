@@ -8,27 +8,26 @@ import org.aibles.failwall.otp.Otp;
 import org.aibles.failwall.user.dto.request.RegisterFormDto;
 import org.aibles.failwall.user.dto.response.UserResponseDto;
 import org.aibles.failwall.user.models.User;
-import org.aibles.failwall.user.repository.IUserRepository;
-import org.aibles.failwall.user.service.IUserRegisterService;
+import org.aibles.failwall.user.repository.UserRepository;
+import org.aibles.failwall.user.service.UserRegisterService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 
 @Service
-public class UserRegisterServiceIml implements IUserRegisterService {
+public class UserRegisterServiceIml implements UserRegisterService {
 
     private final PasswordEncoder passwordEncoder;
-    private final IUserRepository iUserRepository;
+    private final UserRepository iUserRepository;
     private final LoadingCache<String, String> otpCache;
     private final ModelMapper modelMapper;
     private final IMailService mailService;
 
     @Autowired
-    public UserRegisterServiceIml(IUserRepository iUserRepository,
+    public UserRegisterServiceIml(UserRepository iUserRepository,
                                   PasswordEncoder passwordEncoder,
                                   LoadingCache<String, String> otpCache,
                                   ModelMapper modelMapper,
