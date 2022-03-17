@@ -1,4 +1,4 @@
-package org.aibles.failwall.user.controllers;
+package org.aibles.failwall.user.controller;
 
 import org.aibles.failwall.user.dtos.request.LoginRequestDTO;
 import org.aibles.failwall.user.dtos.response.LoginResponseDTO;
@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/login")
 @ResponseStatus(HttpStatus.OK)
-public class LoginController {
+public class UserLoginPostController {
 
     private final UserLoginService userLoginService;
 
     @Autowired
-    public LoginController(UserLoginService userLoginService) {
+    public UserLoginPostController(UserLoginService userLoginService) {
         this.userLoginService = userLoginService;
     }
 
