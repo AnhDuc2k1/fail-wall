@@ -2,8 +2,8 @@ package org.aibles.failwall.user.service.iml;
 
 import org.aibles.failwall.authentication.provider.JwtProvider;
 import org.aibles.failwall.exception.FailWallBusinessException;
-import org.aibles.failwall.user.dto.request.LoginRequestDTO;
-import org.aibles.failwall.user.dto.response.LoginResponseDTO;
+import org.aibles.failwall.user.dto.request.LoginReqDto;
+import org.aibles.failwall.user.dto.response.LoginResDto;
 import org.aibles.failwall.user.model.User;
 import org.aibles.failwall.user.repository.UserRepository;
 import org.aibles.failwall.user.service.UserLoginService;
@@ -32,29 +32,38 @@ public class UserLoginServiceIml implements UserLoginService {
     }
 
     @Override
-    public LoginResponseDTO execute(LoginRequestDTO loginRequestDTO) {
-        validateLoginRequest(loginRequestDTO);
-        User user = userRepository.findByEmail(loginRequestDTO.getEmail()).orElse(null);
-        String token = jwtProvider.generateToken(user.getEmail());
-        return new LoginResponseDTO(token);
+    public LoginResDto execute(LoginReqDto loginReq) {
+        validateInput(loginReq);
+
+        User user = userRepository.findByEmail(loginReq.getEmail()).get();
+
+        //If user is activated, send token to response
+        //If user is not activated, not sent token to response, but user still login success.
+        if (user.isActivated()) {
+            return LoginResDto.builder()
+                    .accessToken(jwtProvider.generateToken(user.getEmail()))
+                    .isActivated(user.isActivated())
+                    .build();
+        } else {
+            return LoginResDto.builder()
+                    .isActivated(user.isActivated())
+                    .build();
+        }
     }
 
-    private void validateLoginRequest(LoginRequestDTO loginRequestDTO){
+    private void validateInput(LoginReqDto loginReq){
         Map<String, String> errorMap = new HashMap<>();
 
-        userRepository.findByEmail(loginRequestDTO.getEmail())
+        userRepository.findByEmail(loginReq.getEmail())
                 .ifPresentOrElse(
-                        User -> {
-                            if(!User.isActivated()){
-                                errorMap.put("user", "user is not activated");
-                            }
-
-                            if(!passwordEncoder.matches(loginRequestDTO.getPassword(), User.getPassword())){
-                                errorMap.put("user", "invalid password");
+                        user -> {
+                            if(!passwordEncoder.matches(loginReq.getPassword(), user.getPassword())){
+                                errorMap.put("password", "Invalid password");
                             }
                         },
-                        () -> errorMap.put("email", "email does not register")
+                        () -> errorMap.put("Email", "email is not registered")
                 );
+
         if(!errorMap.isEmpty()){
             throw new FailWallBusinessException(errorMap, HttpStatus.UNAUTHORIZED);
         }
