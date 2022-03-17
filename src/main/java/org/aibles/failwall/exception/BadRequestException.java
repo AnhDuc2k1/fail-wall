@@ -4,16 +4,16 @@ import org.springframework.http.HttpStatus;
 
 import java.util.Map;
 
-public class BadRequestException extends AbstractException {
+public class BadRequestException extends RuntimeException {
 
-    private final Map<String, String> errorMessage;
+    private final Map<String, String> errorMap;
 
-    public BadRequestException(Map<String, String> errorMessage) {
-        super(errorMessage.toString(), HttpStatus.BAD_REQUEST);
-        this.errorMessage = errorMessage;
+    public BadRequestException(Map<String, String> errorMap) {
+        super();
+        this.errorMap = errorMap;
     }
 
-    public Map<String, String> getErrorMessage() {
-        return this.errorMessage;
+    public Map<String, String> getErrorMap() {
+        return errorMap;
     }
 }

@@ -1,4 +1,4 @@
-package org.aibles.failwall.user.services.imls;
+package org.aibles.failwall.user.services.impls;
 
 import org.aibles.failwall.authentication.security.JwtProvider;
 import org.aibles.failwall.exceptions.UnauthorizedException;
@@ -33,7 +33,7 @@ public class UserLoginServiceIml implements UserLoginService {
     @Override
     public LoginResponseDTO execute(LoginRequestDTO loginRequestDTO) {
         validateLoginRequest(loginRequestDTO);
-        User user = userRepository.findUserByEmail(loginRequestDTO.getEmail()).orElse(null);
+        User user = userRepository.findByEmail(loginRequestDTO.getEmail()).orElse(null);
         String token = jwtProvider.generateToken(user.getEmail());
         return new LoginResponseDTO(token);
     }

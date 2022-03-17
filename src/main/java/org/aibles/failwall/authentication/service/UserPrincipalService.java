@@ -1,6 +1,6 @@
 package org.aibles.failwall.authentication.service;
 
-import org.aibles.failwall.user.repositories.UserRepository;
+import org.aibles.failwall.user.repositories.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,16 +10,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserPrincipalService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final IUserRepository userRepository;
 
     @Autowired
-    public UserPrincipalService(UserRepository userRepository){
+    public UserPrincipalService(IUserRepository userRepository){
         this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email)
+        return userRepository.findUserByEmail(email)
                 .map(user -> new UserPrincipal(user.getEmail(), user.getPassword()))
                 .orElseThrow(() -> {
                     throw new UsernameNotFoundException(email);
