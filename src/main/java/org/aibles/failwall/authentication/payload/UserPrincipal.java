@@ -1,4 +1,4 @@
-package org.aibles.failwall.authentication.service;
+package org.aibles.failwall.authentication.payload;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package org.aibles.failwall.authentication.exception;
+package org.aibles.failwall.authentication.exception.handler;
 
 import java.io.IOException;
 import java.io.Serializable;

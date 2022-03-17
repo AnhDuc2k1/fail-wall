@@ -1,4 +1,4 @@
-package org.aibles.failwall.authentication.exception;
+package org.aibles.failwall.authentication.exception.handler;
 
 import lombok.Getter;
 import org.aibles.failwall.exception.AbstractException;
