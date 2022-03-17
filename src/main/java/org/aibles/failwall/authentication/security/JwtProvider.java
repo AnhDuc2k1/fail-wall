@@ -28,8 +28,9 @@ public class JwtProvider {
 
     private static String JWT_PREFIX= "Bearer";
 
-    public String generateToken(String email){
+    public String generateToken(String email, Set<Role> userRoles){
         Claims claims = Jwts.claims().setSubject(email);
+        claims.put("userRoles", userRoles);
         Date now  = new Date();
         Date expirationDate = new Date (now.getTime() + JWT_LIFE_TIME_MILLISECONDS);
         return Jwts.builder().setClaims(claims)
