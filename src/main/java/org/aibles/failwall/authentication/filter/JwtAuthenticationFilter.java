@@ -1,9 +1,10 @@
 package org.aibles.failwall.authentication.filter;
 
-import org.aibles.failwall.authentication.exception.handler.JwtAuthenticationException;
+import lombok.extern.slf4j.Slf4j;
 import org.aibles.failwall.authentication.provider.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -29,7 +31,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
-        } catch (JwtAuthenticationException e) {
+        } catch (AuthenticationException e) {
+            log.error("authentication exception in filter");
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

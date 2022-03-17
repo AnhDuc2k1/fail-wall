@@ -1,13 +1,14 @@
 package org.aibles.failwall.user.service.iml;
 
 import com.google.common.cache.LoadingCache;
-import org.aibles.failwall.exception.EmailNotFoundException;
+import org.aibles.failwall.exception.FailWallBusinessException;
 import org.aibles.failwall.mail.dto.MailRequestDTO;
 import org.aibles.failwall.mail.service.impl.IMailServiceImpl;
 import org.aibles.failwall.user.dto.request.GetOTPResetPasswordRequestDTO;
 import org.aibles.failwall.user.repository.UserRepository;
 import org.aibles.failwall.user.service.IGetOTPResetPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -36,8 +37,10 @@ public class GetOTPResetPasswordServiceImpl implements IGetOTPResetPasswordServi
 
     public void validateInput(GetOTPResetPasswordRequestDTO getOTPResetPasswordRequestDTO){
         userRepository.findByEmail(getOTPResetPasswordRequestDTO.getEmail())
-                .orElseThrow(() -> new EmailNotFoundException()
-                );
+                .orElseThrow(() -> new FailWallBusinessException(
+                        "Email is not registed",
+                        HttpStatus.BAD_REQUEST
+                ));
     }
 
     public void sendResetPasswordEmail(final String email){

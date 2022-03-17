@@ -1,11 +1,12 @@
 package org.aibles.failwall.user.service.iml;
 
 import com.google.common.cache.LoadingCache;
-import org.aibles.failwall.exception.BadRequestException;
+import org.aibles.failwall.exception.FailWallBusinessException;
 import org.aibles.failwall.user.dto.request.ActiveUserFormRequestDto;
 import org.aibles.failwall.user.repository.UserRepository;
 import org.aibles.failwall.user.service.ActiveUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -55,7 +56,7 @@ public class UserActiveServiceIml implements ActiveUserService {
                 error.put("otp", " expired");
         }
         if (!error.isEmpty()) {
-            throw new BadRequestException(error);
+            throw new FailWallBusinessException(error, HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -1,8 +1,8 @@
 package org.aibles.failwall.authentication.provider;
 
 import io.jsonwebtoken.*;
-import org.aibles.failwall.authentication.exception.handler.JwtAuthenticationException;
 import org.aibles.failwall.authentication.payload.UserPrincipalService;
+import org.aibles.failwall.exception.FailWallBusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,9 +48,9 @@ public class JwtProvider {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(JWT_SECRET_KEY).parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date());
         }catch (JwtException e){
-            throw new JwtAuthenticationException("JWT token is expired", HttpStatus.UNAUTHORIZED);
+            throw new FailWallBusinessException("JWT token is expired", HttpStatus.UNAUTHORIZED);
         }catch (IllegalArgumentException e){
-            throw new JwtAuthenticationException("JWT token is invalid", HttpStatus.UNAUTHORIZED);
+            throw new FailWallBusinessException("JWT token is invalid", HttpStatus.UNAUTHORIZED);
         }
     }
 

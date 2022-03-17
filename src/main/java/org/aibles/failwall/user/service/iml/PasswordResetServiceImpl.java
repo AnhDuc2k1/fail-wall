@@ -1,11 +1,11 @@
 package org.aibles.failwall.user.service.iml;
 
-import org.aibles.failwall.exception.EmailNotFoundException;
-import org.aibles.failwall.exception.BadRequestException;
+import org.aibles.failwall.exception.FailWallBusinessException;
 import org.aibles.failwall.user.dto.request.PasswordResetRequestDTO;
 import org.aibles.failwall.user.repository.UserRepository;
 import org.aibles.failwall.user.service.IPasswordResetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +50,7 @@ public class PasswordResetServiceImpl implements IPasswordResetService {
                 }
         );
         if (!errorMap.isEmpty()){
-            throw new BadRequestException(errorMap);
+            throw new FailWallBusinessException(errorMap, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -61,10 +61,10 @@ public class PasswordResetServiceImpl implements IPasswordResetService {
         final String newPass = passwordResetRequestDTO.getNewPassword();
         final String confirmPass = passwordResetRequestDTO.getConfirmPassword();
 
-        userRepository.findByEmail(email).orElseThrow(() -> new EmailNotFoundException());
+        userRepository.findByEmail(email).orElseThrow(() -> new FailWallBusinessException("error", HttpStatus.BAD_REQUEST));
         if (!newPass.equals(confirmPass)){
             errorMap.put("confirmPassword", "Confirm Password does not match with new password");
-            throw new BadRequestException(errorMap);
+            throw new FailWallBusinessException(errorMap, HttpStatus.BAD_REQUEST);
         }
     }
 

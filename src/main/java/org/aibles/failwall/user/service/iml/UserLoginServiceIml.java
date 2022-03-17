@@ -1,13 +1,14 @@
 package org.aibles.failwall.user.service.iml;
 
 import org.aibles.failwall.authentication.provider.JwtProvider;
-import org.aibles.failwall.exceptions.UnauthorizedException;
+import org.aibles.failwall.exception.FailWallBusinessException;
 import org.aibles.failwall.user.dto.request.LoginRequestDTO;
 import org.aibles.failwall.user.dto.response.LoginResponseDTO;
 import org.aibles.failwall.user.model.User;
 import org.aibles.failwall.user.repository.UserRepository;
 import org.aibles.failwall.user.service.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +56,7 @@ public class UserLoginServiceIml implements UserLoginService {
                         () -> errorMap.put("email", "email does not register")
                 );
         if(!errorMap.isEmpty()){
-            throw new UnauthorizedException(errorMap);
+            throw new FailWallBusinessException(errorMap, HttpStatus.UNAUTHORIZED);
         }
     }
 }

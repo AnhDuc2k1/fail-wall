@@ -1,14 +1,14 @@
-package org.aibles.failwall.exception.exceptionresponse;
+package org.aibles.failwall.exception.response;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 public class ExceptionResponse {
-    private Instant timestamp;
+    private String timestamp;
     private String error;
     private Object message;
 
-    public void setTimestamp(Instant timestamp) {
-        this.timestamp = timestamp;
+    public ExceptionResponse() {
     }
 
     public void setError(String error) {
@@ -19,15 +19,19 @@ public class ExceptionResponse {
         this.message = message;
     }
 
-    public Instant getTimestamp() {
-        return timestamp;
-    }
-
     public String getError() {
         return error;
     }
 
     public Object getMessage() {
         return message;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }

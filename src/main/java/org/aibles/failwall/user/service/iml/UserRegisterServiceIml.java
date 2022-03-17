@@ -1,7 +1,7 @@
 package org.aibles.failwall.user.service.iml;
 
 import com.google.common.cache.LoadingCache;
-import org.aibles.failwall.exception.BadRequestException;
+import org.aibles.failwall.exception.FailWallBusinessException;
 import org.aibles.failwall.mail.dto.MailRequestDTO;
 import org.aibles.failwall.mail.service.IMailService;
 import org.aibles.failwall.otp.Otp;
@@ -12,6 +12,7 @@ import org.aibles.failwall.user.repository.UserRepository;
 import org.aibles.failwall.user.service.UserRegisterService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -57,7 +58,7 @@ public class UserRegisterServiceIml implements UserRegisterService {
         );
 
         if (!error.isEmpty()) {
-            throw new BadRequestException(error);
+            throw new FailWallBusinessException(error, HttpStatus.BAD_REQUEST);
         }
     }
 
