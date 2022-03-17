@@ -1,6 +1,6 @@
 package org.aibles.failwall.authentication.service;
 
-import org.aibles.failwall.user.repository.UserRepository;
+import org.aibles.failwall.user.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

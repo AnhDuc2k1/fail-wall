@@ -15,6 +15,9 @@ public class User {
     private String password;
     private boolean isActivated;
 
+    public User(Integer id, String name, String email, String password, boolean isActivated) {
+
+    }
     public User(Long id, String name, String email, String password, boolean isActivated) {
         this.id = id;
         this.name = name;
@@ -58,6 +61,14 @@ public class User {
         this.password = password;
     }
 
+    public boolean isActivated() {
+        return isActivated;
+    }
+
+    public void setActivated(boolean activated) {
+        isActivated = activated;
+    }
+
     public boolean getIsActivated() {
         return isActivated;
     }
@@ -65,5 +76,4 @@ public class User {
     public void setIsActivated(boolean isActivated) {
         this.isActivated = isActivated;
     }
-
 }
