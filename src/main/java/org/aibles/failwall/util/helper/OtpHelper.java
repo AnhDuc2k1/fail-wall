@@ -1,8 +1,8 @@
-package org.aibles.failwall.otp;
+package org.aibles.failwall.util.helper;
 
 import java.util.Random;
 
-public class Otp {
+public class OtpHelper {
 
     private static StringBuilder otpCode = new StringBuilder();
 
