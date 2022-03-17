@@ -1,10 +1,10 @@
 package org.aibles.failwall.user.service;
 
-import org.aibles.failwall.user.dto.request.RegisterFormDto;
-import org.aibles.failwall.user.dto.response.UserResponseDto;
+import org.aibles.failwall.user.dto.request.RegisterReqDto;
+import org.aibles.failwall.user.dto.response.RegisterResDto;
 
 public interface UserRegisterService {
 
-    UserResponseDto execute(RegisterFormDto registerForm);
+    RegisterResDto execute(RegisterReqDto registerReq);
 
 }

@@ -3,10 +3,10 @@ package org.aibles.failwall.user.service.iml;
 import com.google.common.cache.LoadingCache;
 import org.aibles.failwall.exception.FailWallBusinessException;
 import org.aibles.failwall.mail.dto.MailRequestDTO;
-import org.aibles.failwall.mail.service.IMailService;
-import org.aibles.failwall.otp.Otp;
-import org.aibles.failwall.user.dto.request.RegisterFormDto;
-import org.aibles.failwall.user.dto.response.UserResponseDto;
+import org.aibles.failwall.mail.MailService;
+import org.aibles.failwall.util.helper.OtpHelper;
+import org.aibles.failwall.user.dto.request.RegisterReqDto;
+import org.aibles.failwall.user.dto.response.RegisterResDto;
 import org.aibles.failwall.user.model.User;
 import org.aibles.failwall.user.repository.UserRepository;
 import org.aibles.failwall.user.service.UserRegisterService;
@@ -25,14 +25,14 @@ public class UserRegisterServiceIml implements UserRegisterService {
     private final UserRepository userRepository;
     private final LoadingCache<String, String> otpCache;
     private final ModelMapper modelMapper;
-    private final IMailService mailService;
+    private final MailService mailService;
 
     @Autowired
     public UserRegisterServiceIml(UserRepository userRepository,
                                   PasswordEncoder passwordEncoder,
                                   LoadingCache<String, String> otpCache,
                                   ModelMapper modelMapper,
-                                  IMailService mailService) {
+                                  MailService mailService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.otpCache = otpCache;
@@ -41,38 +41,56 @@ public class UserRegisterServiceIml implements UserRegisterService {
     }
 
     @Override
-    public UserResponseDto execute(RegisterFormDto registerForm) {
-        validateRegisterFormDto(registerForm);
-        User newUser = modelMapper.map(registerForm, User.class);
-        newUser.setPassword(passwordEncoder.encode(registerForm.getPassword()));
-        newUser.setActivated(false);
-        userRepository.save(newUser);
-        sendMail(registerForm.getEmail());
-        return modelMapper.map(userRepository.findByEmail(registerForm.getEmail()).get(), UserResponseDto.class);
+    public RegisterResDto execute(RegisterReqDto registerReq) {
+        //Validate input
+        validateInput(registerReq);
+
+        //Create user entity from request
+        User user = modelMapper.map(registerReq, User.class);
+        user.setPassword(passwordEncoder.encode(registerReq.getPassword()));
+        user.setActivated(false);
+
+        //Save user to database
+        user = userRepository.save(user);
+
+        //Generate otp for active user
+        String activeUserOtp = OtpHelper.generateOTP();
+        otpCache.put(user.getEmail().toUpperCase(), activeUserOtp);
+
+        //send mail request user active account
+        this.sendMail(user.getEmail(), activeUserOtp);
+
+        return modelMapper.map(user, RegisterResDto.class);
     }
 
-    private void validateRegisterFormDto(RegisterFormDto registerFormDto) {
-        HashMap<String, String> error = new HashMap<>();
-        userRepository.findByEmail(registerFormDto.getName()).ifPresent(
-                user -> error.put("user", "email is already existed")
-        );
+    private void validateInput(RegisterReqDto registerReq) {
+        HashMap<String, String> errorMap = new HashMap<>();
 
-        if (!error.isEmpty()) {
-            throw new FailWallBusinessException(error, HttpStatus.BAD_REQUEST);
+        //Validate email with unique constraint
+        userRepository.findByEmail(registerReq.getName())
+                .ifPresent(user -> errorMap.put("user", "email is already existed"));
+
+        //Validate password confirm
+        if (!registerReq.getPassword().equals(registerReq.getPasswordConfirm())){
+            errorMap.put("passwordConfirm", "PasswordConfirm not match to password");
+        }
+
+        if (!errorMap.isEmpty()) {
+            throw new FailWallBusinessException(errorMap, HttpStatus.BAD_REQUEST);
         }
     }
 
-    void sendMail(final String email) {
-        String otpCode = new Otp().generateOTP();
-        otpCache.put(email, otpCode);
+    void sendMail(final String email, String otpCode) {
         String message = "Your confirm register account OTP code is: " +
                 otpCode +
                 ". This OTP code will be expired about 3 minutes.";
 
+        //Create mail message
         MailRequestDTO mailRequestDTO = new MailRequestDTO();
         mailRequestDTO.setReceiver(email);
         mailRequestDTO.setMessage(message);
         mailRequestDTO.setSubject("verify account");
+
         mailService.sendMail(mailRequestDTO);
     }
 }
