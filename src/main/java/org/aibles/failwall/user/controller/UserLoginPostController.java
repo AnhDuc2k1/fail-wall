@@ -1,8 +1,8 @@
 package org.aibles.failwall.user.controller;
 
-import org.aibles.failwall.user.dtos.request.LoginRequestDTO;
-import org.aibles.failwall.user.dtos.response.LoginResponseDTO;
-import org.aibles.failwall.user.services.UserLoginService;
+import org.aibles.failwall.user.dto.request.LoginRequestDTO;
+import org.aibles.failwall.user.dto.response.LoginResponseDTO;
+import org.aibles.failwall.user.service.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

@@ -2,7 +2,7 @@ package org.aibles.failwall.user.controller;
 
 import org.aibles.failwall.user.dto.request.RegisterFormDto;
 import org.aibles.failwall.user.dto.response.UserResponseDto;
-import org.aibles.failwall.user.services.UserRegisterService;
+import org.aibles.failwall.user.service.UserRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
