@@ -1,4 +1,4 @@
-package org.aibles.failwall.user.service;
+package org.aibles.failwall.user.services;
 
 import org.aibles.failwall.user.dto.request.RegisterFormDto;
 import org.aibles.failwall.user.dto.response.UserResponseDto;

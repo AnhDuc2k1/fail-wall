@@ -1,4 +1,4 @@
-package org.aibles.failwall.user.service.iml;
+package org.aibles.failwall.user.services.impls;
 
 import com.google.common.cache.LoadingCache;
 import org.aibles.failwall.exception.BadRequestException;
@@ -8,8 +8,8 @@ import org.aibles.failwall.otp.Otp;
 import org.aibles.failwall.user.dto.request.RegisterFormDto;
 import org.aibles.failwall.user.dto.response.UserResponseDto;
 import org.aibles.failwall.user.models.User;
-import org.aibles.failwall.user.repository.UserRepository;
-import org.aibles.failwall.user.service.UserRegisterService;
+import org.aibles.failwall.user.repositories.UserRepository;
+import org.aibles.failwall.user.services.UserRegisterService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,19 +21,19 @@ import java.util.HashMap;
 public class UserRegisterServiceIml implements UserRegisterService {
 
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository iUserRepository;
+    private final UserRepository userRepository;
     private final LoadingCache<String, String> otpCache;
     private final ModelMapper modelMapper;
     private final IMailService mailService;
 
     @Autowired
-    public UserRegisterServiceIml(UserRepository iUserRepository,
+    public UserRegisterServiceIml(UserRepository userRepository,
                                   PasswordEncoder passwordEncoder,
                                   LoadingCache<String, String> otpCache,
                                   ModelMapper modelMapper,
                                   IMailService mailService) {
         this.passwordEncoder = passwordEncoder;
-        this.iUserRepository = iUserRepository;
+        this.userRepository = userRepository;
         this.otpCache = otpCache;
         this.modelMapper = modelMapper;
         this.mailService = mailService;
@@ -45,18 +45,14 @@ public class UserRegisterServiceIml implements UserRegisterService {
         User newUser = modelMapper.map(registerForm, User.class);
         newUser.setPassword(passwordEncoder.encode(registerForm.getPassword()));
         newUser.setActivated(false);
-        iUserRepository.save(newUser);
+        userRepository.save(newUser);
         sendMail(registerForm.getEmail());
-        return modelMapper.map(iUserRepository.findByEmail(registerForm.getEmail()).get(), UserResponseDto.class);
+        return modelMapper.map(userRepository.findByEmail(registerForm.getEmail()).get(), UserResponseDto.class);
     }
 
     private void validateRegisterFormDto(RegisterFormDto registerFormDto) {
         HashMap<String, String> error = new HashMap<>();
-        iUserRepository.findUserByUserName(registerFormDto.getName()).ifPresent(
-                user -> error.put("user", "username is already existed")
-        );
-
-        iUserRepository.findByEmail(registerFormDto.getName()).ifPresent(
+        userRepository.findByEmail(registerFormDto.getName()).ifPresent(
                 user -> error.put("user", "email is already existed")
         );
 
@@ -68,11 +64,9 @@ public class UserRegisterServiceIml implements UserRegisterService {
     void sendMail(final String email) {
         String otpCode = new Otp().generateOTP();
         otpCache.put(email, otpCode);
-        String message = new StringBuilder()
-                .append("Your confirm register account OTP code is: ")
-                .append(otpCode)
-                .append(". This OTP code will be expired about 3 minutes.")
-                .toString();
+        String message = "Your confirm register account OTP code is: " +
+                otpCode +
+                ". This OTP code will be expired about 3 minutes.";
 
         MailRequestDTO mailRequestDTO = new MailRequestDTO();
         mailRequestDTO.setReceiver(email);

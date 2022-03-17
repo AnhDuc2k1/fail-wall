@@ -19,12 +19,13 @@ public class MailConfiguration {
     @Value("${spring.mail.password}")
     private String mailPassword;
 
-
     @Bean
     public JavaMailSender createJavaMailSenderBean(){
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
         javaMailSender.setHost(MAIL_HOST);
         javaMailSender.setPort(MAIL_PORT);
+
+        System.out.println("mail " + mailPassword);
 
         javaMailSender.setUsername(mailUsername);
         javaMailSender.setPassword(mailPassword);

@@ -1,10 +1,10 @@
-package org.aibles.failwall.user.service.iml;
+package org.aibles.failwall.user.services.impls;
 
 import com.google.common.cache.LoadingCache;
 import org.aibles.failwall.exception.BadRequestException;
 import org.aibles.failwall.user.dto.request.ActiveUserFormRequestDto;
-import org.aibles.failwall.user.repository.UserRepository;
-import org.aibles.failwall.user.service.ActiveUserService;
+import org.aibles.failwall.user.repositories.UserRepository;
+import org.aibles.failwall.user.services.ActiveUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,8 @@ public class UserActiveServiceIml implements ActiveUserService {
     private final LoadingCache<String, String> otpCache;
 
     @Autowired
-    public UserActiveServiceIml(UserRepository userRepository, LoadingCache<String, String> otpCache) {
+    public UserActiveServiceIml(UserRepository userRepository,
+                                LoadingCache<String, String> otpCache) {
         this.userRepository = userRepository;
         this.otpCache = otpCache;
     }
@@ -28,7 +29,7 @@ public class UserActiveServiceIml implements ActiveUserService {
         String email = activeUserFormRequestDto.getEmail();
         validateInput(activeUserFormRequestDto);
         userRepository.findByEmail(email).map( user -> {
-            user.setIsActivated(true);
+            user.setActivated(true);
             return userRepository.save(user);
         });
     }
@@ -40,7 +41,7 @@ public class UserActiveServiceIml implements ActiveUserService {
 
         userRepository.findByEmail(activeUserFormRequestDto.getEmail()).ifPresentOrElse(
                 user -> {
-                    if (userRepository.isActiveUserByEmail(user.getEmail())) {
+                    if (userRepository.isActiveUser(user.getEmail())) {
                         error.put("user", " is activated");
                     }
                 },

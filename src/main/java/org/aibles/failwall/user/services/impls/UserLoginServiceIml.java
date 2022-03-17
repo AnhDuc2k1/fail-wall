@@ -41,7 +41,7 @@ public class UserLoginServiceIml implements UserLoginService {
     private void validateLoginRequest(LoginRequestDTO loginRequestDTO){
         Map<String, String> errorMap = new HashMap<>();
 
-        userRepository.findUserByEmail(loginRequestDTO.getEmail())
+        userRepository.findByEmail(loginRequestDTO.getEmail())
                 .ifPresentOrElse(
                         User -> {
                             if(!User.isActivated()){

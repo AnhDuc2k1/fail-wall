@@ -3,9 +3,8 @@ package org.aibles.failwall.user.services.impls;
 import org.aibles.failwall.exception.EmailNotFoundException;
 import org.aibles.failwall.exception.BadRequestException;
 import org.aibles.failwall.user.dtos.request.PasswordResetRequestDTO;
-import org.aibles.failwall.user.repositories.IUserRepository;
+import org.aibles.failwall.user.repositories.UserRepository;
 import org.aibles.failwall.user.services.IPasswordResetService;
-import org.aibles.failwall.user.services.PasswordResetTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,17 +16,14 @@ import java.util.Optional;
 @Service
 public class PasswordResetServiceImpl implements IPasswordResetService {
 
-    private final PasswordResetTokenProvider passwordResetTokenProvider;
     private final PasswordEncoder passwordEncoder;
-    private final IUserRepository iUserRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public PasswordResetServiceImpl(PasswordResetTokenProvider passwordResetTokenProvider,
-                                    PasswordEncoder passwordEncoder,
-                                    IUserRepository iUserRepository) {
-        this.passwordResetTokenProvider = passwordResetTokenProvider;
+    public PasswordResetServiceImpl(PasswordEncoder passwordEncoder,
+                                    UserRepository userRepository) {
         this.passwordEncoder = passwordEncoder;
-        this.iUserRepository = iUserRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -40,15 +36,15 @@ public class PasswordResetServiceImpl implements IPasswordResetService {
         updateNewPassword(passwordResetRequestDTO);
     }
 
-
+    //using cache to key reset pass
     private void validatePasswordResetToken(String passwordResetToken, String email){
         Map <String, String> errorMap = new HashMap<>();
 
         Optional.ofNullable(passwordResetToken).ifPresentOrElse(
                 token -> {
-                    if (!passwordResetTokenProvider.isValidResetPassToken(token, email)){
-                        errorMap.put("passwordResetToken", "Invalid or expired password reset token");
-                    }
+//                    if (!passwordResetTokenProvider.isValidResetPassToken(token, email)){
+//                        errorMap.put("passwordResetToken", "Invalid or expired password reset token");
+//                    }
                 }, () -> {
                     errorMap.put("passwordResetToken", "Unable to get password reset token");
                 }
@@ -65,7 +61,7 @@ public class PasswordResetServiceImpl implements IPasswordResetService {
         final String newPass = passwordResetRequestDTO.getNewPassword();
         final String confirmPass = passwordResetRequestDTO.getConfirmPassword();
 
-        iUserRepository.findUserByEmail(email).orElseThrow(() -> new EmailNotFoundException());
+        userRepository.findByEmail(email).orElseThrow(() -> new EmailNotFoundException());
         if (!newPass.equals(confirmPass)){
             errorMap.put("confirmPassword", "Confirm Password does not match with new password");
             throw new BadRequestException(errorMap);
@@ -75,7 +71,7 @@ public class PasswordResetServiceImpl implements IPasswordResetService {
     private void updateNewPassword(PasswordResetRequestDTO passwordResetRequestDTO){
         final String email = passwordResetRequestDTO.getEmail();
         final String newPassword = passwordEncoder.encode(passwordResetRequestDTO.getNewPassword());
-        iUserRepository.updatePasswordForEmail(newPassword, email);
+        userRepository.updatePassword(email, newPassword);
     }
 
 }

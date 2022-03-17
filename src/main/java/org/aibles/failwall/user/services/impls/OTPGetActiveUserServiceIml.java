@@ -1,11 +1,11 @@
-package org.aibles.failwall.user.service.iml;
+package org.aibles.failwall.user.services.impls;
 
 import com.google.common.cache.LoadingCache;
 import org.aibles.failwall.mail.dto.MailRequestDTO;
 import org.aibles.failwall.mail.service.IMailService;
 import org.aibles.failwall.otp.Otp;
 import org.aibles.failwall.user.dto.request.ActiveUserFormRequestDto;
-import org.aibles.failwall.user.service.GetOTPActiveUserService;
+import org.aibles.failwall.user.services.GetOTPActiveUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

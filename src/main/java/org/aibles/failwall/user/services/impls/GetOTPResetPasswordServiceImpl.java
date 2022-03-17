@@ -5,7 +5,7 @@ import org.aibles.failwall.exception.EmailNotFoundException;
 import org.aibles.failwall.mail.dto.MailRequestDTO;
 import org.aibles.failwall.mail.service.impl.IMailServiceImpl;
 import org.aibles.failwall.user.dtos.request.GetOTPResetPasswordRequestDTO;
-import org.aibles.failwall.user.repositories.IUserRepository;
+import org.aibles.failwall.user.repositories.UserRepository;
 import org.aibles.failwall.user.services.IGetOTPResetPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +15,12 @@ import java.util.Random;
 @Service
 public class GetOTPResetPasswordServiceImpl implements IGetOTPResetPasswordService {
 
-    private final IUserRepository userRepository;
+    private final UserRepository userRepository;
     private final IMailServiceImpl iMailService;
     private final LoadingCache<String, String> otpCache;
 
     @Autowired
-    public GetOTPResetPasswordServiceImpl(IUserRepository userRepository,
+    public GetOTPResetPasswordServiceImpl(UserRepository userRepository,
                                           IMailServiceImpl iMailService,
                                           LoadingCache<String, String> otpCache) {
         this.userRepository = userRepository;
@@ -35,7 +35,7 @@ public class GetOTPResetPasswordServiceImpl implements IGetOTPResetPasswordServi
     }
 
     public void validateInput(GetOTPResetPasswordRequestDTO getOTPResetPasswordRequestDTO){
-        userRepository.findUserByEmail(getOTPResetPasswordRequestDTO.getEmail())
+        userRepository.findByEmail(getOTPResetPasswordRequestDTO.getEmail())
                 .orElseThrow(() -> new EmailNotFoundException()
                 );
     }
