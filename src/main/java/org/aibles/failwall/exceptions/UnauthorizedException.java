@@ -1,15 +1,15 @@
-package org.aibles.failwall.exception;
+package org.aibles.failwall.exceptions;
 
 import org.springframework.http.HttpStatus;
 
 import java.util.Map;
 
-public class BadRequestException extends RuntimeException {
+public class UnauthorizedException extends AbstractException {
 
     private final Map<String, String> errorMap;
 
-    public BadRequestException(Map<String, String> errorMap) {
-        super();
+    public UnauthorizedException(Map<String, String> errorMap) {
+        super(errorMap.toString(), HttpStatus.UNAUTHORIZED);
         this.errorMap = errorMap;
     }
 

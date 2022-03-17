@@ -1,9 +1,11 @@
 package org.aibles.failwall.user.models;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table(value = "roles")
 public class Role {
+    @Id
     private Long id;
     private String name;
 
@@ -29,13 +31,5 @@ public class Role {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

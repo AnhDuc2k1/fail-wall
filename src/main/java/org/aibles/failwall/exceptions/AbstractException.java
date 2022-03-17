@@ -1,10 +1,9 @@
-package org.aibles.failwall.exception;
+package org.aibles.failwall.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public class AbstractException extends RuntimeException {
+public class AbstractException extends RuntimeException{
     private final String message;
-
     private final HttpStatus status;
 
     public AbstractException(String message, HttpStatus status) {

@@ -1,6 +1,8 @@
 package org.aibles.failwall.user.models;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.Persistent;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table(value = "users")
@@ -11,18 +13,17 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private boolean isActived;
+    private boolean isActivated;
 
-    public User() {
-
-    }
-
-    public User(Long id, String name, String email, String password, boolean isActived) {
+    public User(Long id, String name, String email, String password, boolean isActivated) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.isActived = isActived;
+        this.isActivated = isActivated;
+    }
+
+    public User() {
     }
 
     public Long getId() {
@@ -31,10 +32,6 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setActived(boolean actived) {
-        isActived = actived;
     }
 
     public String getName() {
@@ -61,23 +58,11 @@ public class User {
         this.password = password;
     }
 
-    public boolean isActived() {
-        return isActived;
+    public boolean isActivated() {
+        return isActivated;
     }
 
-    public void setActive(boolean actived) {
-        isActived = actived;
-    }
-
-    @Override
-    public String
-    toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", isActive=" + isActived +
-                '}';
+    public void setActivated(boolean activated) {
+        isActivated = activated;
     }
 }

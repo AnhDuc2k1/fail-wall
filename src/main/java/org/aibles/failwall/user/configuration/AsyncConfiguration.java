@@ -15,5 +15,4 @@ public class AsyncConfiguration {
     public Executor threadPoolTaskExecutor() {
         return new ThreadPoolTaskExecutor();
     }
-
 }
