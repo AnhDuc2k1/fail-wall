@@ -24,7 +24,7 @@ public class JwtProvider {
 
     private static String JWT_SECRET_KEY = "aibles";
 
-    private static long EXPIRATION_TIME_OF_JWT = 604800;
+    private static long JWT_LIFE_TIME_MILLISECONDS = 604800000;
 
     private static String JWT_PREFIX= "Bearer";
 
@@ -32,7 +32,7 @@ public class JwtProvider {
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("userRoles", userRoles);
         Date now  = new Date();
-        Date expirationDate = new Date (now.getTime() + EXPIRATION_TIME_OF_JWT  * 1000);
+        Date expirationDate = new Date (now.getTime() + JWT_LIFE_TIME_MILLISECONDS);
         return Jwts.builder().setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expirationDate)
