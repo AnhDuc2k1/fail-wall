@@ -61,7 +61,7 @@ public class UserRegisterActiveServiceIml implements UserRegisterActiveService {
             if (!otpCache.get(email).equals(otpCode)) {
                 error.put("otp", "In-correct otp");
             }
-            else {
+            else if (otpCache.equals(email.toUpperCase())){
                 error.put("otp", "Otp expired");
             }
         } catch (ExecutionException e) {
