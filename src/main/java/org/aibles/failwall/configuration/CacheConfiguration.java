@@ -12,11 +12,24 @@ import java.util.concurrent.TimeUnit;
 public class CacheConfiguration {
 
     private static final int OTP_LIFE_TIME = 3;
+    private static final int PASSWORD_RESET_LIFE_TIME = 5;
 
-    @Bean
+    @Bean("otpCache")
     public LoadingCache<String, String> createOtpCacheBean() {
         return CacheBuilder.newBuilder()
                 .expireAfterWrite(OTP_LIFE_TIME, TimeUnit.MINUTES)
+                .build(new CacheLoader<String, String>() {
+                    @Override
+                    public String load(String key) throws Exception {
+                        return key.toUpperCase();
+                    }
+                });
+    }
+
+    @Bean("passwordResetCache")
+    public LoadingCache<String, String> createPasswordResetCacheBean() {
+        return CacheBuilder.newBuilder()
+                .expireAfterWrite(PASSWORD_RESET_LIFE_TIME, TimeUnit.MINUTES)
                 .build(new CacheLoader<String, String>() {
                     @Override
                     public String load(String key) throws Exception {
