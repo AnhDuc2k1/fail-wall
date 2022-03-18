@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/users/forgot-password")
+@RequestMapping("/api/v1/forgot-password")
 public class PasswordResetPatchController {
 
     private final PasswordResetUpdatePassService service;

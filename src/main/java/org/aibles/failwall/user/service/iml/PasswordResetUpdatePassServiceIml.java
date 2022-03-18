@@ -23,12 +23,12 @@ public class PasswordResetUpdatePassServiceIml implements PasswordResetUpdatePas
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final LoadingCache<String, Object> passwordResetCache;
+    private final LoadingCache<String, String> passwordResetCache;
 
     @Autowired
     public PasswordResetUpdatePassServiceIml(PasswordEncoder passwordEncoder,
                                              UserRepository userRepository,
-                                             @Qualifier("passwordResetCache") LoadingCache<String, Object> passwordResetCache) {
+                                             @Qualifier("passwordResetCache") LoadingCache<String, String> passwordResetCache) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.passwordResetCache = passwordResetCache;

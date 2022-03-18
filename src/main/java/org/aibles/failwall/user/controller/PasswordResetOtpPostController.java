@@ -24,5 +24,4 @@ public class PasswordResetOtpPostController {
     public void execute(@RequestBody @Valid PasswordResetOtpGetReqDto passwordResetOtpGetReq){
         service.execute(passwordResetOtpGetReq);
     }
-
 }

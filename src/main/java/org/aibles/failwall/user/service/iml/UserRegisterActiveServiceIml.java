@@ -3,6 +3,7 @@ package org.aibles.failwall.user.service.iml;
 import com.google.common.cache.LoadingCache;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.failwall.exception.FailWallBusinessException;
+import org.aibles.failwall.exception.FailWallSystemException;
 import org.aibles.failwall.user.dto.request.UserRegisterActiveReqDto;
 import org.aibles.failwall.user.repository.UserRepository;
 import org.aibles.failwall.user.service.UserRegisterActiveService;
@@ -66,7 +67,7 @@ public class UserRegisterActiveServiceIml implements UserRegisterActiveService {
             }
         } catch (ExecutionException e) {
             log.error("Can not read otp from guava cache");
-            throw new FailWallBusinessException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new FailWallSystemException("Internal Server Error");
         }
 
         if (!error.isEmpty()) {

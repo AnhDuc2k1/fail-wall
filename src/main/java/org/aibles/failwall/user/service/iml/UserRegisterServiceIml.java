@@ -80,7 +80,7 @@ public class UserRegisterServiceIml implements UserRegisterService {
         }
     }
 
-    void sendMail(final String email, String otpCode) {
+    private void sendMail(final String email, String otpCode) {
         String message = "Your confirm register account OTP code is: " +
                 otpCode +
                 ". This OTP code will be expired about 3 minutes.";
