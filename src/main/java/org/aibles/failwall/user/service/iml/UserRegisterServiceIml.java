@@ -2,7 +2,7 @@ package org.aibles.failwall.user.service.iml;
 
 import com.google.common.cache.LoadingCache;
 import org.aibles.failwall.exception.FailWallBusinessException;
-import org.aibles.failwall.mail.dto.MailRequestDTO;
+import org.aibles.failwall.mail.dto.MailRequestDto;
 import org.aibles.failwall.mail.MailService;
 import org.aibles.failwall.util.helper.OtpHelper;
 import org.aibles.failwall.user.dto.request.RegisterReqDto;
@@ -86,7 +86,7 @@ public class UserRegisterServiceIml implements UserRegisterService {
                 ". This OTP code will be expired about 3 minutes.";
 
         //Create mail message
-        MailRequestDTO mailRequestDTO = new MailRequestDTO();
+        MailRequestDto mailRequestDTO = new MailRequestDto();
         mailRequestDTO.setReceiver(email);
         mailRequestDTO.setMessage(message);
         mailRequestDTO.setSubject("verify account");

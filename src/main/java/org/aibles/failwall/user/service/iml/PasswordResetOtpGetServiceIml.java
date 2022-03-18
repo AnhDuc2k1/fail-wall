@@ -3,8 +3,8 @@ package org.aibles.failwall.user.service.iml;
 import com.google.common.cache.LoadingCache;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.failwall.exception.FailWallBusinessException;
-import org.aibles.failwall.mail.dto.MailRequestDTO;
-import org.aibles.failwall.mail.iml.IMailServiceImpl;
+import org.aibles.failwall.mail.dto.MailRequestDto;
+import org.aibles.failwall.mail.iml.MailServiceIml;
 import org.aibles.failwall.user.dto.request.PasswordResetOtpGetReqDto;
 import org.aibles.failwall.user.repository.UserRepository;
 import org.aibles.failwall.user.service.PasswordResetOtpGetService;
@@ -18,12 +18,12 @@ import org.springframework.stereotype.Service;
 public class PasswordResetOtpGetServiceIml implements PasswordResetOtpGetService {
 
     private final UserRepository userRepository;
-    private final IMailServiceImpl mailService;
+    private final MailServiceIml mailService;
     private final LoadingCache<String, String> otpCache;
 
     @Autowired
     public PasswordResetOtpGetServiceIml(UserRepository userRepository,
-                                         IMailServiceImpl mailService,
+                                         MailServiceIml mailService,
                                          LoadingCache<String, String> otpCache) {
         this.userRepository = userRepository;
         this.mailService = mailService;
@@ -58,7 +58,7 @@ public class PasswordResetOtpGetServiceIml implements PasswordResetOtpGetService
                 .append(otp)
                 .append(". This OTP will be expired about 3 minutes.").toString();
 
-        MailRequestDTO mailRequestDTO = new MailRequestDTO();
+        MailRequestDto mailRequestDTO = new MailRequestDto();
         mailRequestDTO.setReceiver(email);
         mailRequestDTO.setSubject("Confirm reset password");
         mailRequestDTO.setMessage(message);

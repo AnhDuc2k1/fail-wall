@@ -2,7 +2,7 @@ package org.aibles.failwall.user.service.iml;
 
 import com.google.common.cache.LoadingCache;
 import org.aibles.failwall.exception.FailWallBusinessException;
-import org.aibles.failwall.mail.dto.MailRequestDTO;
+import org.aibles.failwall.mail.dto.MailRequestDto;
 import org.aibles.failwall.mail.MailService;
 import org.aibles.failwall.user.dto.request.UserOtpActiveReqDto;
 import org.aibles.failwall.user.repository.UserRepository;
@@ -69,7 +69,7 @@ public class UserOtpActiveServiceIml implements UserOtpActiveService {
                 .append(". This OTP code will be expired about 3 minutes.")
                 .toString();
 
-        MailRequestDTO mailRequestDTO = new MailRequestDTO();
+        MailRequestDto mailRequestDTO = new MailRequestDto();
         mailRequestDTO.setReceiver(email);
         mailRequestDTO.setMessage(message);
         mailRequestDTO.setSubject("Active Fail Wall account");
