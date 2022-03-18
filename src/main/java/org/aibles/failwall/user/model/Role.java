@@ -5,6 +5,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table(value = "roles")
 public class Role {
+
     @Id
     private Long id;
     private String name;
