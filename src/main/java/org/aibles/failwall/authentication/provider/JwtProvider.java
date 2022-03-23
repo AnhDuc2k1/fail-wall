@@ -55,15 +55,15 @@ public class JwtProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsernameFromToken(token));
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 
-    public String getUsername(String token) {
+    public String getUsernameFromToken(String token) {
         return Jwts.parser().setSigningKey(JWT_SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String getToken(HttpServletRequest request) {
+    public String getTokenFromHeader(HttpServletRequest request) {
         String token = request.getHeader(JWT_HEADER);
         if (token != null && token.startsWith(JWT_PREFIX)){
             return token.substring(7);
