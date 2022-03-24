@@ -51,9 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/v1/forgot-password/**").permitAll()
                 .antMatchers("/api/v1/login").permitAll()
-                .antMatchers("/api/v1/active-user",
-                        "/api/v1/get-otp",
-                        "/api/v1/register").permitAll()
+                .antMatchers("/api/v1/register/**").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(customAccessDeniedHandler)
