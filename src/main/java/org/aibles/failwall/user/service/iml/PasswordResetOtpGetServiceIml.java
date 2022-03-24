@@ -37,7 +37,7 @@ public class PasswordResetOtpGetServiceIml implements PasswordResetOtpGetService
 
         //Generate otp and put it to otpCache
         String otp = OtpHelper.generateOTP();
-        otpCache.put(passwordResetOtpGetReq.getEmail().toUpperCase(), otp);
+        otpCache.put(passwordResetOtpGetReq.getEmail(), otp);
 
         //Send otp to user's mail
         sendMailOtpResetPass(passwordResetOtpGetReq.getEmail(), otp);
