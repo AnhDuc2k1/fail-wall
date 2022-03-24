@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/v1/login")
@@ -21,7 +23,7 @@ public class UserLoginPostController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public LoginResDto execute(@RequestBody LoginReqDto loginRequestDTO){
+    public LoginResDto execute(@RequestBody @Valid LoginReqDto loginRequestDTO){
         return service.execute(loginRequestDTO);
     }
 }
