@@ -55,7 +55,7 @@ public class UserRegisterServiceIml implements UserRegisterService {
 
         //Generate otp for active user
         String activeUserOtp = OtpHelper.generateOTP();
-        otpCache.put(user.getEmail().toUpperCase(), activeUserOtp);
+        otpCache.put(user.getEmail(), activeUserOtp);
 
         //send mail request user active account
         this.sendMail(user.getEmail(), activeUserOtp);
@@ -67,7 +67,7 @@ public class UserRegisterServiceIml implements UserRegisterService {
         HashMap<String, String> errorMap = new HashMap<>();
 
         //Validate email with unique constraint
-        userRepository.findByEmail(registerReq.getName())
+        userRepository.findByEmail(registerReq.getEmail())
                 .ifPresent(user -> errorMap.put("user", "email is already existed"));
 
         //Validate password confirm
