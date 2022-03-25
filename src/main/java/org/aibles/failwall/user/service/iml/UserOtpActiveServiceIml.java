@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @Service
 public class UserOtpActiveServiceIml implements UserOtpActiveService {
 
@@ -37,7 +36,7 @@ public class UserOtpActiveServiceIml implements UserOtpActiveService {
         validateInput(userOtpActiveReq);
 
         String otp = OtpHelper.generateOTP();
-        otpCache.put(userOtpActiveReq.getEmail().toUpperCase(), otp);
+        otpCache.put(userOtpActiveReq.getEmail(), otp);
 
         sendMail(userOtpActiveReq.getEmail(), otp);
     }

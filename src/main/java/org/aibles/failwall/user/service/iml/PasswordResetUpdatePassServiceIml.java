@@ -58,12 +58,12 @@ public class PasswordResetUpdatePassServiceIml implements PasswordResetUpdatePas
 
         //validate password reset key
         try {
-            String key = passwordResetCache.get(email.toUpperCase()).toString();
+            String key = passwordResetCache.get(email).toString();
 
             if (key.equals(email.toUpperCase())) {
                 errorMap.put("passwordResetKey", "PasswordResetKey expired");
             }
-            else if (!key.equals(passwordResetKey.toUpperCase())) {
+            else if (!key.equals(passwordResetKey)) {
                 errorMap.put("passwordResetKey", "Invalid passwordResetKey");
             }
         } catch (ExecutionException e) {

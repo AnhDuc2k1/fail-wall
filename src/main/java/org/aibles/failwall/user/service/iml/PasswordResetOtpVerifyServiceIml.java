@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -41,7 +43,7 @@ public class PasswordResetOtpVerifyServiceIml implements PasswordResetOtpVerifyS
 
         //Generate passwordResetKey and put it in cache
         final String passwordResetKey = generatePasswordResetKey(passwordResetOtpVerifyReq.getEmail());
-        passwordResetKeyCache.put(passwordResetOtpVerifyReq.getEmail().toUpperCase(), passwordResetKey);
+        passwordResetKeyCache.put(passwordResetOtpVerifyReq.getEmail(), passwordResetKey);
 
         return new PasswordResetOtpVerifyResDto(passwordResetKey);
     }
@@ -53,7 +55,7 @@ public class PasswordResetOtpVerifyServiceIml implements PasswordResetOtpVerifyS
                 .ifPresentOrElse(
                         user -> {
                             try{
-                                String otp = otpCache.get(passwordResetOtpVerifyReq.getEmail().toUpperCase());
+                                String otp = otpCache.get(passwordResetOtpVerifyReq.getEmail());
 
                                 if (otp.equals(passwordResetOtpVerifyReq.getEmail().toUpperCase())){
                                     errorMap.put("otp", "Otp is expired");
@@ -78,6 +80,8 @@ public class PasswordResetOtpVerifyServiceIml implements PasswordResetOtpVerifyS
     }
 
     private String generatePasswordResetKey(final String email){
-        return Base64.getEncoder().encodeToString(email.getBytes());
+        String keyGenerationDate = new SimpleDateFormat("HH:mm:ss yyyy-MM-dd").format(new Date());
+        return Base64.getEncoder().encodeToString((email + keyGenerationDate).getBytes());
     }
 }
+

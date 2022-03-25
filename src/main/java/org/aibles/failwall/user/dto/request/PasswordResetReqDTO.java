@@ -1,6 +1,5 @@
 package org.aibles.failwall.user.dto.request;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
