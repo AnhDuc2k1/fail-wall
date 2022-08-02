@@ -1,0 +1,19 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="20220714-1718-001" author="DucTA">
+        <createTable tableName="category">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_category_id"/>
+            </column>
+            <column name="name" type="varchar(32)"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

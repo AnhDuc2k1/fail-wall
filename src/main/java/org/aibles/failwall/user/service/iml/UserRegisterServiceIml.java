@@ -4,6 +4,8 @@ import com.google.common.cache.LoadingCache;
 import org.aibles.failwall.exception.FailWallBusinessException;
 import org.aibles.failwall.mail.dto.MailRequestDto;
 import org.aibles.failwall.mail.MailService;
+import org.aibles.failwall.user.model.Role;
+import org.aibles.failwall.user.repository.RoleRepository;
 import org.aibles.failwall.util.helper.OtpHelper;
 import org.aibles.failwall.user.dto.request.RegisterReqDto;
 import org.aibles.failwall.user.dto.response.RegisterResDto;
@@ -26,18 +28,20 @@ public class UserRegisterServiceIml implements UserRegisterService {
     private final LoadingCache<String, String> otpCache;
     private final ModelMapper modelMapper;
     private final MailService mailService;
+    private final RoleRepository roleRepository;
 
     @Autowired
     public UserRegisterServiceIml(UserRepository userRepository,
                                   PasswordEncoder passwordEncoder,
                                   LoadingCache<String, String> otpCache,
                                   ModelMapper modelMapper,
-                                  MailService mailService) {
+                                  MailService mailService, RoleRepository roleRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.otpCache = otpCache;
         this.modelMapper = modelMapper;
         this.mailService = mailService;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -49,6 +53,9 @@ public class UserRegisterServiceIml implements UserRegisterService {
         User user = modelMapper.map(registerReq, User.class);
         user.setPassword(passwordEncoder.encode(registerReq.getPassword()));
         user.setActivated(false);
+
+        Role role = roleRepository.findById(2L).get();
+        user.addRoleForUser(role);
 
         //Save user to database
         user = userRepository.save(user);

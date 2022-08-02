@@ -1,15 +1,15 @@
-package org.aibles.failwall.user.model;
+package org.aibles.failwall.document.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("user_roles")
+@Table("category_document")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class UserRole {
+@NoArgsConstructor
+public class DocumentCategory {
 
-    private Long roleId;
+    private int categoryId;
 }
