@@ -1,6 +1,7 @@
 package org.aibles.failwall.configuration;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,7 +9,10 @@ import org.springframework.context.annotation.Configuration;
 public class ModelMapperConfiguration {
 
     @Bean
-    public ModelMapper createModelMapper() {
-        return new ModelMapper();
+    public ModelMapper creatModelMapper(){
+            ModelMapper modelMapper = new ModelMapper();
+            modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+            return modelMapper;
     }
+
 }

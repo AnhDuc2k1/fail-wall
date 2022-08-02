@@ -1,0 +1,31 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="20220714-1710-001" author="DucTA">
+        <createTable tableName="document">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_document_id"/>
+            </column>
+            <column name="title" type="varchar(128)"/>
+            <column name="content" type="text"/>
+            <column name="thumbnail" type="varchar(256)"/>
+            <column name="views" type="bigint"/>
+            <column name="created_by" type="varchar(256)"/>
+            <column name="last_updated_by" type="varchar(256)"/>
+            <column name="created_date" type="TIMESTAMP"/>
+            <column name="last_updated_date" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20220802-1000-002" author="DucTA">
+        <renameColumn tableName="document" oldColumnName="created_date" newColumnName="created_at" columnDataType="TIMESTAMP"/>
+        <renameColumn tableName="document" oldColumnName="last_updated_date" newColumnName="last_updated_at" columnDataType="TIMESTAMP"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,13 +1,8 @@
 package org.aibles.failwall.authentication.provider;
 
 import io.jsonwebtoken.*;
-import org.aibles.failwall.authentication.payload.UserPrincipalService;
 import org.aibles.failwall.exception.FailWallBusinessException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -15,27 +10,16 @@ import java.util.Date;
 @Component
 public class JwtProvider {
 
-    private final UserPrincipalService userDetailsService;
-
-    @Autowired
-    public JwtProvider(UserPrincipalService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
     private final static String JWT_HEADER = "Authorization";
-
     private final static String JWT_SECRET_KEY = "aibles";
-
-    private final static long EXPIRATION_TIME_OF_JWT = 604800;
-
-    private static long JWT_LIFE_TIME_MILLISECONDS = 604800000;
-
     private final static String JWT_PREFIX= "Bearer";
+    private final static long JWT_LIFE_TIME_MILLISECONDS = 604_800_000;
 
     public String generateToken(String email){
         Claims claims = Jwts.claims().setSubject(email);
         Date now  = new Date();
         Date expirationDate = new Date (now.getTime() + JWT_LIFE_TIME_MILLISECONDS);
+
         return Jwts.builder().setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expirationDate)
@@ -46,17 +30,12 @@ public class JwtProvider {
     public boolean validateToken(String token){
         try{
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(JWT_SECRET_KEY).parseClaimsJws(token);
-            return !claimsJws.getBody().getExpiration().before(new Date());
+            return !claimsJws.getBody().getExpiration().before(new Date()); // return false if expiration before now
         }catch (JwtException e){
             throw new FailWallBusinessException("JWT token is expired", HttpStatus.UNAUTHORIZED);
         }catch (IllegalArgumentException e){
             throw new FailWallBusinessException("JWT token is invalid", HttpStatus.UNAUTHORIZED);
         }
-    }
-
-    public Authentication getAuthentication(String token) {
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsernameFromToken(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 
     public String getUsernameFromToken(String token) {

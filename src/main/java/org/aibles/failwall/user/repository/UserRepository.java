@@ -22,4 +22,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query("SELECT is_activated FROM users WHERE email = :email")
     boolean isActiveUser(@Param("email") String email);
+
 }
